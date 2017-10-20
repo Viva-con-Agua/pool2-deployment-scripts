@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+  proxy:
+    image: traefik
+    command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
+    networks:
+      - webgateway
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/traefik.toml
+      - ./certs:/certs     
+	
+    consul-cluster:
+    	image: consul:latest
+    	deploy:
+      		update_config:
+        	parallelism: 1
+        	delay: 10s
+      	mode: global
+      	placement:
+        	constraints: [node.role == manager]
+    	ports:
+      		- 8500:8500
+    	networks:
+      		- consul-net
+    	environment:
+      		- 'CONSUL_BIND_INTERFACE=eth2'
+    	command: agent -server -datacenter traefik -ui -retry-join=tasks.consul-cluster -retry-join=tasks.consul-cluster -bootstrap-expect=2 -client=0.0.0.0
+
+networks:
+  webgateway:
+    driver: bridge

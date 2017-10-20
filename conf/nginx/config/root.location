@@ -1,0 +1,3 @@
+location / {
+	return 301 https://vca.informatik.hu-berlin.de/drops/auth/signin;
+}
