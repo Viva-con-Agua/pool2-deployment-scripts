@@ -2,9 +2,8 @@
 path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 confPath=$"${path}/../conf/drops"
 
-case $1 in
-	run)
-		docker run --net pool-network --ip 172.2.0.3 --name drops --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:0.17.10 \
+setup_drops_docker(){
+	docker run --net pool-network --ip 172.2.0.3 --name drops --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:0.17.10 \
 		-Dplay.evolutions.db.default.autoApply=true \
 		-Dconfig.resource=application.conf \
 		-Dplay.http.context="/drops" \
@@ -16,7 +15,21 @@ case $1 in
 		-Dplay.mailer.mock=no \
 		-Dplay.mailer.host=smtp.vca.com \
 		-Dplay.mailer.user=drops \
-		-Dplay.mailer.password=drops
+		-Dplay.mailer.password=drops;
+
+}
+remove_drops_docker(){
+	docker stop drops;
+	docker rm drops;
+}
+
+case $1 in
+	run)
+		setup_drops_docker
+		;;
+	reset)
+		remove_drops_docker
+		setup_drops_docker
 		;;
 	start)
 		docker start drops
@@ -25,8 +38,7 @@ case $1 in
 		docker stop drops
 		;;
 	rm)
-		docker stop drops
-		docker rm drops
+		remove_drops_docker
 		;;
 	db)
 		case $2 in

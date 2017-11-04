@@ -5,13 +5,16 @@ docker=$"${path}/scripts/"
 
 case $1 in
 	nginx)
-		bash ${docker}nginx.sh $2
+		bash ${docker}nginx.sh $2 $3
 	;;
 	traefik)
 		bash ${docker}traefik.sh $2
 	;;
 	drops)
 		bash ${docker}drops.sh $2 $3
+	;;
+	dispenser)
+		bash ${docker}dispenser.sh $2 $3
 	;; 
 	mail)
 		bash ${docker}mailserver.sh $2 $3

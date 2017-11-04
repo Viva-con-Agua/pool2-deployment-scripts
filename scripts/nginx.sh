@@ -4,11 +4,11 @@ confPath=$"${path}/../conf/nginx"
 certPath=$"/home/pool/Pool/cert"
 case $1 in
 	run)
+
 		docker run --net pool-network --ip 172.2.0.2 --name nginx-docker -p 443:443 -p 80:80 \
 		-v ${confPath}/config:/etc/nginx/conf.d/ \
-		-v ${confPath}/vca.informatik.hu-berlin.de.pem:/etc/nginx/vca.informatik.hu-berlin.de.pem \
-		-v ${certPath}/vca.informatik.hu-berlin.de.chained.pem:/etc/nginx/vca.informatik.hu-berlin.de.chained.pem \
-		-v ${confPath}/vca.informatik.hu-berlin.de.key:/etc/nginx/vca.informatik.hu-berlin.de.key \
+		-v ${certPath}/${2}.pem:/etc/nginx/${2}.pem \
+		-v ${certPath}/${2}.key:/etc/nginx/${2}.key \
 		-v ${certPath}/global.pass:/etc/nginx/global.pass \
 		-d nginx:1.12.1 'nginx-debug' '-g' 'daemon off;'
 		;;
@@ -24,6 +24,19 @@ case $1 in
 		;;
 	logs)
 		docker logs nginx-docker
+		;;
+	set-host)
+		if [ ! -f ${confPath}/config/ssl.conf ]
+		then	
+			touch ${confPath}/config/ssl.conf
+			echo "ssl_certificate ${2}.pem;" > ${confPath}/config/ssl.conf
+			echo "ssl_certificate_key ${2}.key;" >> ${confPath}/config/ssl.conf
+		else
+			rm ${confPath}/config/ssl.conf	
+		 	touch ${confPath}/config/ssl.conf	
+			echo "ssl_certificate ${2}.pem;" > ${confPath}/config/ssl.conf     	
+		        echo "ssl_certificate_key ${2}.key;" >> ${confPath}/config/ssl.conf
+		fi
 		;;
 	*)
 		echo $"Usage: $0 {run|start|stop|rm}"
