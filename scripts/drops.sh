@@ -2,7 +2,8 @@
 path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 confPath=$"${path}/../conf/drops"
 
-setup_drops_docker(){
+# setup the drops docker with
+drops_setup_docker(){
 	docker run --net pool-network --ip 172.2.0.3 --name drops --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:0.17.10 \
 		-Dplay.evolutions.db.default.autoApply=true \
 		-Dconfig.resource=application.conf \
@@ -18,14 +19,47 @@ setup_drops_docker(){
 		-Dplay.mailer.password=drops;
 
 }
-remove_drops_docker(){
+# start drops docker
+drops_start_docker(){
+	docker start drops;
+}
+# remove drops docker
+drops_remove_docker(){
 	docker stop drops;
 	docker rm drops;
 }
 
+# setup drops db docker
+drops_db_setup_docker(){
+	docker run --net pool-network --ip 172.2.2.1 --name drops-mongo -d mongo;
+	docker run --net pool-network --ip 172.2.1.2 --name drops-mariadb \
+				    	-e MYSQL_ROOT_PASSWORD=drops \
+    				    	-e MYSQL_DATABASE=drops \
+    					-e MYSQL_USER=drops \
+    					-e MYSQL_PASSWORD=drops \
+    					-e MYSQL_ROOT_PASSWORD=yes \
+    					-d mariadb:latest;
+
+}
+
+drops_db_remove_docker(){
+	cdate=$"date +%Y-%m-%d-%H-%M"
+	docker exec -it drops-mongo mongodump --db drops &
+	wait &!
+	docker cp drops-mongo:/dump/ /home/pool/
+	gzip /home/pool/backup/drops /home/pool/backup/drops_mongo_${cdate}.gzip
+}
+
+
+
+
+
 case $1 in
 	run)
 		setup_drops_docker
+		;;
+	backup)
+		drops_db_remove_docker
 		;;
 	reset)
 		remove_drops_docker
