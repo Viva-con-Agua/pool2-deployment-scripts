@@ -7,8 +7,9 @@ case $1 in
 
 		docker run --net pool-network --ip 172.2.0.2 --name nginx-docker -p 443:443 -p 80:80 \
 		-v ${confPath}/config:/etc/nginx/conf.d/ \
-		-v ${certPath}/${2}.pem:/etc/nginx/${2}.pem \
-		-v ${certPath}/${2}.key:/etc/nginx/${2}.key \
+		-v ${confPath}/config/test.html:/var/www/html/test \
+		-v ${certPath}/nopw/${2}.pem:/etc/nginx/${2}.pem \
+		-v ${certPath}/nopw/${2}.key:/etc/nginx/${2}.key \
 		-v ${certPath}/global.pass:/etc/nginx/global.pass \
 		-d nginx:1.12.1 'nginx-debug' '-g' 'daemon off;'
 		;;

@@ -31,15 +31,25 @@ drops_remove_docker(){
 
 # setup drops db docker
 drops_db_setup_docker(){
-	docker run --net pool-network --ip 172.2.2.1 --name drops-mongo -d mongo;
-	docker run --net pool-network --ip 172.2.1.2 --name drops-mariadb \
-				    	-e MYSQL_ROOT_PASSWORD=drops \
-    				    	-e MYSQL_DATABASE=drops \
-    					-e MYSQL_USER=drops \
-    					-e MYSQL_PASSWORD=drops \
-    					-e MYSQL_ROOT_PASSWORD=yes \
-    					-d mariadb:latest;
+	docker run --net pool-network --ip 172.2.2.1 --name drops-mongo --restart=unless-stopped -d mongo;
+	docker run --net pool-network --ip 172.2.1.2 --name drops-mariadb --restart=unless-stopped \
+		-e MYSQL_ROOT_PASSWORD=drops \
+	    	-e MYSQL_DATABASE=drops \
+    		-e MYSQL_USER=drops \
+    		-e MYSQL_PASSWORD=drops \
+    		-e MYSQL_ROOT_PASSWORD=yes \
+    		-d mariadb:latest;
 
+}
+
+drops_db_stop_docker(){
+	docker stop drops-mariadb
+	docker stop drops-mongo
+}
+
+drops_db_start_docker(){
+	docker start drops-mongo;
+	docker start drops-mariadb;	
 }
 
 drops_db_remove_docker(){
@@ -76,15 +86,8 @@ case $1 in
 		;;
 	db)
 		case $2 in
-			run)
-				docker run --net pool-network --ip 172.2.1.1 --name drops-mongo --restart=unless-stopped -d mongo
-				docker run --net pool-network --ip 172.2.1.2 --name drops-mariadb \
-				    	-e MYSQL_ROOT_PASSWORD=drops \
-    				    	-e MYSQL_DATABASE=drops \
-    					-e MYSQL_USER=drops \
-    					-e MYSQL_PASSWORD=drops \
-    					-e MYSQL_ROOT_PASSWORD=yes \
-    					-d mariadb:latest
+			run)	
+				drops_db_setup_docker
 				;;
 			start)
 				docker start drops-mongo

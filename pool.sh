@@ -15,6 +15,9 @@ case $1 in
 	;;
 	dispenser)
 		bash ${docker}dispenser.sh $2 $3
+	;;
+	sluice)
+		bash ${docker}sluice.sh $2 $3
 	;; 
 	mail)
 		bash ${docker}mailserver.sh $2 $3
