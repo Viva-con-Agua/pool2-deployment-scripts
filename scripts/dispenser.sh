@@ -40,7 +40,7 @@ case $1 in
 				dispenser-assets_run_docker
 			;;
 			*)
-				echo"read doku "
+				echo "read doku "
 		esac
 		;;
 	start)
@@ -62,7 +62,7 @@ case $1 in
 				dispenser-assets_run_docker
 			;;
 			*)
-				echo"read doku"
+				echo "read doku"
 		esac
 		;;
 	pull)

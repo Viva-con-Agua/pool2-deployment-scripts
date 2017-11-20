@@ -72,8 +72,8 @@ case $1 in
 		drops_db_remove_docker
 		;;
 	reset)
-		remove_drops_docker
-		setup_drops_docker
+		drops_remove_docker
+		drops_setup_docker
 		;;
 	start)
 		docker start drops
@@ -82,7 +82,7 @@ case $1 in
 		docker stop drops
 		;;
 	rm)
-		remove_drops_docker
+		drops_remove_docker
 		;;
 	db)
 		case $2 in
