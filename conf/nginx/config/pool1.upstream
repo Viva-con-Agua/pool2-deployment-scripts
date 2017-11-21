@@ -1,0 +1,3 @@
+upstream pool1 {
+	server 172.2.0.10:80;
+}

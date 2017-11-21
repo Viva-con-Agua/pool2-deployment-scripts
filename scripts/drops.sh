@@ -66,7 +66,7 @@ drops_db_remove_docker(){
 
 case $1 in
 	run)
-		setup_drops_docker
+		drops_setup_docker
 		;;
 	backup)
 		drops_db_remove_docker
