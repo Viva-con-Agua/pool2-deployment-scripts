@@ -1,3 +1,0 @@
-upstream drops {
-	server 172.2.0.3:9000;
-}

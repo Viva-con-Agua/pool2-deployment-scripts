@@ -2,12 +2,16 @@
 
 confPath=$"/home/pool/Pool/conf/nginx"
 certPath=$"/home/pool/Pool/cert"
+
+mailserver_setup(){
+	docker run --net pool-network --ip 172.2.0.4 \
+	 -e POSTFIX_myhostname=vca.informatik.hu-berlin.de \
+    	--name mail-docker \
+    	-d mwader/postfix-relay;
+}
 case $1 in
-	run)
-		docker run --net pool-network --ip 172.2.0.4 -h smtp.vca.com --name mail-docker -d\
-		-e SMTP_LOGIN=drops \
-		-e SMTP_PASSWORD=drops \
-      		b32147/smtp-relay
+	run)	
+		mailserver_setup
 		;;
 	start) 
 		docker start mail-docker

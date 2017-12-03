@@ -11,7 +11,9 @@ case $1 in
 		-v ${certPath}/nopw/${2}.pem:/etc/nginx/${2}.pem \
 		-v ${certPath}/nopw/${2}.key:/etc/nginx/${2}.key \
 		-v ${certPath}/global.pass:/etc/nginx/global.pass \
-		-d nginx:1.11.10 'nginx-debug' '-g' 'daemon off;'
+		-d nginx:1.12.1 'nginx-debug' '-g' 'daemon off;'
+		#-v ${confPath}/nginx.conf:/etc/nginx/nginx.conf \
+	#	-d nginx:1.13.7 
 		;;
 	start) 
 		docker start nginx-docker

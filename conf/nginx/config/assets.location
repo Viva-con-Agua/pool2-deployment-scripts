@@ -1,5 +1,0 @@
-location /assets {
-        proxy_pass http://dispenserassets;
-
-}
-

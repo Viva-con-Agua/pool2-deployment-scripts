@@ -1,0 +1,26 @@
+
+#Drops
+upstream drops {
+        server 172.2.0.3:9000;
+}
+
+#Dispenser
+upstream dispenser {
+	server 172.2.0.5:9000;
+}
+# 
+upstream dispenserassets{
+        server 172.2.0.6:8080;
+}
+
+#good old pool 
+upstream pool {
+	server 172.2.0.10:80;
+}
+
+#php
+
+upstream php {
+	server unix:/tmp/php-cgi.socket;
+        server 172.2.0.9:9000;
+}

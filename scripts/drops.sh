@@ -1,10 +1,11 @@
 #!/bin/bash
 path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 confPath=$"${path}/../conf/drops"
+VERSION=`cat ${confPath}/VERSION`
 
 # setup the drops docker with
 drops_setup_docker(){
-	docker run --net pool-network --ip 172.2.0.3 --name drops --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:0.17.10 \
+	docker run --net pool-network --ip 172.2.0.3 --name drops --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb  -v ${confPath}/application.${1}.conf:/conf/application.conf -d vivaconagua/drops:$1 \
 		-Dplay.evolutions.db.default.autoApply=true \
 		-Dconfig.resource=application.conf \
 		-Dplay.http.context="/drops" \
@@ -14,9 +15,7 @@ drops_setup_docker(){
 		-Dslick.dbs.default.db.password=drops \
 		-Dmail.smtp.host=mail:25 \
 		-Dplay.mailer.mock=no \
-		-Dplay.mailer.host=smtp.vca.com \
-		-Dplay.mailer.user=drops \
-		-Dplay.mailer.password=drops;
+		-Dplay.mailer.host=mail 
 
 }
 # start drops docker
@@ -65,15 +64,23 @@ drops_db_remove_docker(){
 
 
 case $1 in
-	run)
-		drops_setup_docker
+	run)	
+		if [ -z "$2" ]; then 
+			drops_setup_docker ${VERSION}
+		else
+			drops_setup_docker $2
+		fi
 		;;
 	backup)
 		drops_db_remove_docker
 		;;
 	reset)
 		drops_remove_docker
-		drops_setup_docker
+		if [ -z "$2" ]; then 
+			drops_setup_docker ${VERSION}
+		else
+			drops_setup_docker $2
+		fi
 		;;
 	start)
 		docker start drops
@@ -83,6 +90,9 @@ case $1 in
 		;;
 	rm)
 		drops_remove_docker
+		;;
+	logs)
+		docker logs drops
 		;;
 	db)
 		case $2 in

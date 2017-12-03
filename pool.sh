@@ -22,6 +22,9 @@ case $1 in
 	mail)
 		bash ${docker}mailserver.sh $2 $3
 	;; 
+	pool1)
+		bash ${docker}wordpress.sh $2 $3
+	;;
 	list)
 		echo $"nginx" 
 	;;
