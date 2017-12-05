@@ -4,6 +4,12 @@
 # Drops 
 location /drops {
 	proxy_pass http://drops;
+	proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   Host $http_host;
+
+
 }
 
 #Dispenser
@@ -21,10 +27,11 @@ location /assets {
         proxy_pass http://dispenserassets;
 
 }
-location /test {
-        default_type "text/html";
-        try_files $uri $uri/ /test.html;
-}
+
+#location /test {
+#        default_type "text/html";
+#        try_files $uri $uri/ /test.html;
+#}
 
 # Pool^1 
 location /pool {
