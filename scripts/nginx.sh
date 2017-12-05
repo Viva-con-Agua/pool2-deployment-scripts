@@ -2,18 +2,29 @@
 path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 confPath=$"${path}/../conf/nginx"
 certPath=$"/home/pool/Pool/cert"
-case $1 in
-	run)
+source ${path}/../pool2.conf
 
-		docker run --net pool-network --ip 172.2.0.2 --name nginx-docker -p 443:443 -p 80:80 \
+nginx_run_docker(){
+	docker run --net pool-network --ip 172.2.0.2 --name nginx-docker -p 443:443 -p 80:80 \
 		-v ${confPath}/config:/etc/nginx/conf.d/ \
 		-v ${confPath}/config/test.html:/var/www/html/test \
-		-v ${certPath}/nopw/${2}.pem:/etc/nginx/${2}.pem \
-		-v ${certPath}/nopw/${2}.key:/etc/nginx/${2}.key \
+		-v ${certPath}/nopw/${1}.pem:/etc/nginx/${1}.pem \
+		-v ${certPath}/nopw/${1}.key:/etc/nginx/${1}.key \
 		-v ${certPath}/global.pass:/etc/nginx/global.pass \
-		-d nginx:1.12.1 'nginx-debug' '-g' 'daemon off;'
+		-d nginx:1.12.1 'nginx-debug' '-g' 'daemon off;';
 		#-v ${confPath}/nginx.conf:/etc/nginx/nginx.conf \
 	#	-d nginx:1.13.7 
+
+}
+
+
+case $1 in
+	run)
+		if [ -z "$2" ]; then 
+			nginx_run_docker $hostname
+		else
+			nginx_run_docker $2
+		fi
 		;;
 	start) 
 		docker start nginx-docker
