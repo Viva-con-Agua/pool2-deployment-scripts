@@ -31,9 +31,9 @@ pool microserviceName parameter
 
 Currently the following microservice are supported:
 
-Microservice | Version | Alias
---- | --- | ---
-Nginx | 0.12.1 | nginx
-Drops | 0.19.13 | drops 
-Pool1 | N.A. 	| pool1
-Dispenser | 0.1.12 | dispenser 
+Microservice | Version | Alias | Parameter
+--- | --- | --- | ---
+Nginx | 0.12.1 | nginx | `run` `start` `rm` `logs`
+Drops | 0.19.13 | drops | `run` `start` `rm` `logs`
+Pool1 | N.A. 	| pool1 | `run` `start` `rm` `logs`
+Dispenser | 0.1.12 | dispenser | `run` `start` `rm` `logs`
