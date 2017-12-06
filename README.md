@@ -28,6 +28,16 @@ A microservice of Pool2 can be started with the following command:
 ```
 pool microserviceName parameter
 ```
+The following parameters are available to control the pool:
+
+Parameter | Function
+--- | ---
+run | setup the docker and start it in the pool2-network
+start | start a stoppt docker
+stop | stops the docker
+rm | delete the docker
+logs | show docker logs
+
 
 Currently the following microservice are supported:
 
