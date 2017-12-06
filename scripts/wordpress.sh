@@ -19,7 +19,7 @@ pool1_setup_docker(){
 	-e WORDPRESS_DB_PASSWORD=root \
 	-e WORDPRESS_DB_NAME=db175370026 \
 	-e WORDPRESS_DB_TABLE_PREFIX=vca1312 \
-	-d wordpress:4.7.1-php7.0-apache	
+	-d vivaconagua/pool1-docker:latest;	
 }
 
 pool1_rm_fpm(){
