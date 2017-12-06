@@ -33,4 +33,7 @@ Currently the following microservice are supported:
 
 Microservice | Version | Alias
 --- | --- | ---
-Drops | 0.19.13 | drops  
+Nginx | 0.12.1 | nginx
+Drops | 0.19.13 | drops 
+Pool1 | N.A. 	| pool1
+Dispenser | 0.1.12 | dispenser 
