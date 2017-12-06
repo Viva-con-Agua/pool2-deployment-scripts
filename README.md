@@ -46,4 +46,4 @@ Microservice | Version | Alias | Parameter
 Nginx | 0.12.1 | nginx | `run` `start` `stop` `rm` `logs`
 Drops | 0.19.13 | drops | `run` `start` `stop` `rm` `logs`
 Pool1 | N.A. 	| pool1 | `run` `start` `stop` `rm` `logs`
-Dispenser | 0.1.12 | dispenser | `run` `start` `rm` `logs`
+Dispenser | 0.1.12 | dispenser | `run` `start` `stop` `rm` `logs`
