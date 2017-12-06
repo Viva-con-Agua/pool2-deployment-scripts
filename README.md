@@ -41,7 +41,7 @@ logs | show docker logs
 
 Currently the following microservice are supported:
 
-Microservice | Version | Alias | Parameter
+Microservice | Version | microserviceName | Parameter
 --- | --- | --- | ---
 Nginx | 0.12.1 | nginx | `run` `start` `stop` `rm` `logs`
 Drops | 0.19.13 | drops | `run` `start` `stop` `rm` `logs`
