@@ -31,3 +31,5 @@ pool microserviceName parameter
 
 Currently the following microservice are supported:
 
+Microservice | Version | Alias
+Drops | 0.19.13 | drops  
