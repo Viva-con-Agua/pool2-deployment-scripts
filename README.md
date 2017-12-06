@@ -33,7 +33,7 @@ The following parameters are available to control the pool:
 Parameter | Function
 --- | ---
 run | setup the docker and start it in the pool2-network
-start | start a stoppt docker
+start | start a stopped dockr
 stop | stops the docker
 rm | delete the docker
 logs | show docker logs
