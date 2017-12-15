@@ -46,11 +46,11 @@ if ( !defined('ABSPATH') )
 require_once(ABSPATH . 'wp-settings.php');
 remove_filter('template_redirect', 'redirect_canonical');
 
-if ( defined( 'RELOCATE' ) && RELOCATE ) { // Move flag is set
+/*if ( defined( 'RELOCATE' ) && RELOCATE ) { // Move flag is set
 	if ( isset( $_SERVER['PATH_INFO'] ) && ($_SERVER['PATH_INFO'] != $_SERVER['PHP_SELF']) )
 		$_SERVER['PHP_SELF'] = str_replace( $_SERVER['PATH_INFO'],  $_SERVER['PHP_SELF'] );
 
 	$url = dirname( set_url_scheme( 'http://' .  $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] ) );
 	if ( $url != get_option( 'siteurl' ) )
 		update_option( 'siteurl', $url );
-}
+}*/

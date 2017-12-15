@@ -26,6 +26,10 @@ dispenser-assets_rm_docker(){
 	docker rm dispenser-assets;
 }
 
+dispenser_run_db(){
+	docker run --net pool-network --ip 172.2.1.6 --name dispenser-db -d mongo
+}
+
 case $1 in
 	run)	
 		case $2 in

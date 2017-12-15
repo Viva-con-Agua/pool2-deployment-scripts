@@ -5,7 +5,7 @@ certPath=$"/home/pool/Pool/cert"
 source ${path}/../pool2.conf
 
 nginx_run_docker(){
-	docker run --net pool-network --ip 172.2.0.2 --name nginx-docker -p 443:443 -p 80:80 \
+	docker run --net pool-network --ip 172.2.0.2 --name nginx-docker --restart=unless-stopped -p 443:443 -p 80:80 \
 		-v ${confPath}/config:/etc/nginx/conf.d/ \
 		-v ${confPath}/config/test.html:/var/www/html/test \
 		-v ${certPath}/nopw/${1}.pem:/etc/nginx/${1}.pem \
