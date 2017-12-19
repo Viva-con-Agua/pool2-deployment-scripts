@@ -12,6 +12,8 @@ drops_setup_docker(){
 		-Dplay.evolutions.db.default.autoApply=true \
 		-Dconfig.resource=application.conf \
 		-Dplay.http.context="/drops" \
+		-Dlogin.flow.ms.switch=true \
+		-Dlogin.flow.ms.url=https://vca.informatik.hu-berlin.de/pool \
 		-Dmongodb.uri=mongodb://mongo/drops \
 		-Dslick.dbs.default.db.url=jdbc:mysql://mariadb/drops \
 		-Dslick.dbs.default.db.user=drops \
