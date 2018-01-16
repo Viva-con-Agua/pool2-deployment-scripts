@@ -7,7 +7,7 @@ source ${path}/../pool2.conf
 source ${certPath}/password.conf
 # setup the drops docker with
 drops_setup_docker(){
-	docker run --net pool-network --ip 172.2.0.3 --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb  -v ${confPath}/application.${1}.conf:/conf/application.conf -d vivaconagua/drops:$1 \
+	docker run --net pool-network --ip 172.2.0.3 -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb  -v ${confPath}/application.${1}.conf:/conf/application.conf -d vivaconagua/drops:$1 \
 		-Dplay.crypto.secret=$drops_secret \
 		-Dplay.evolutions.db.default.autoApply=true \
 		-Dconfig.resource=application.conf \
@@ -22,7 +22,9 @@ drops_setup_docker(){
 		-Dplay.mailer.mock=no \
 		-Dplay.mailer.host=mailbox.informatik.hu-berlin.de \
 		-Dplay.mailer.user=$smtp_user \
-		-Dplay.mailer.password=$smtp_password 
+		-Dplay.mailer.password=$smtp_password \
+		-Dpool1.export=true \
+		-Dpool1.url="https://vca.informatik.hu-berlin.de/pool?loginFnc=usercreate" 
 }
 # start drops docker
 drops_start_docker(){

@@ -8,8 +8,8 @@ nginx_run_docker(){
 	docker run --net pool-network --ip 172.2.0.2 --name nginx-docker --restart=unless-stopped -p 443:443 -p 80:80 \
 		-v ${confPath}/config:/etc/nginx/conf.d/ \
 		-v ${confPath}/config/test.html:/var/www/html/test \
-		-v ${certPath}/nopw/${1}.pem:/etc/nginx/${1}.pem \
-		-v ${certPath}/nopw/${1}.key:/etc/nginx/${1}.key \
+		-v ${certPath}/${1}.pem:/etc/nginx/${1}.pem \
+		-v ${certPath}/${1}.key:/etc/nginx/${1}.key \
 		-v ${certPath}/global.pass:/etc/nginx/global.pass \
 		-d nginx:1.12.1 'nginx-debug' '-g' 'daemon off;';
 		#-v ${confPath}/nginx.conf:/etc/nginx/nginx.conf \

@@ -25,8 +25,14 @@ case $1 in
 	pool1)
 		bash ${docker}wordpress.sh $2 $3
 	;;
+	oes)
+		bash ${docker}oes.sh $2 $3
+	;;
 	list)
 		echo $"nginx" 
+	;;
+	dump)
+		bash ${docker}tcpdump.sh $2 $3
 	;;
 	network)
 		case $2 in
