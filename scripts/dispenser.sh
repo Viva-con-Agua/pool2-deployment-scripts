@@ -7,9 +7,14 @@ dispenser_pull_docker(){
 }
 
 dispenser_run_docker(){
-	docker run --net pool-network --ip 172.2.0.5 --name dispenser -d vivaconagua/dispenser:0.1.13-dev \
+	docker run --net pool-network --ip 172.2.0.5 --name dispenser --restart=unless-stopped -d vivaconagua/dispenser:0.1.13-test \
 		-Dplay.evolutions.db.default.autoApply=true \
 		-Dconfig.resource=application.conf \
+		-Ddrops.redirectUrl="https://vca.informatik.hu-berlin.de/drops/oauth2/code/get/dispenser" \
+		-Ddrops.getTokenUrl="" \
+		-Ddrops.grant_type="authorization_code" \
+		-Ddrops.client_id="dispenser" \
+		-Ddrops.redirectUri="" \
 		-Dplay.http.context="/dispenser"; 
 }
 
@@ -27,7 +32,7 @@ dispenser-assets_rm_docker(){
 }
 
 dispenser_run_db(){
-	docker run --net pool-network --ip 172.2.1.6 --name dispenser-db -d mongo
+	docker run --net pool-network --ip 172.2.1.6 --name dispenser-db --restart=unless-stopped -d mongo
 }
 
 case $1 in

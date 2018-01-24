@@ -5,12 +5,12 @@ confPath=$"${path}/../conf/pool1"
 
 
 pool1_setup_db(){
-	docker run --net pool-network --ip 172.2.1.10 --name pool1-mysql \
+	docker run --net pool-network --ip 172.2.1.10 --mount source=pool1-db-files,destination=/var/lib/mysql/ --restart=unless-stopped --name pool1-mysql \
 	-e MYSQL_ROOT_PASSWORD=root \
 	-d mysql;
 }
 pool1_setup_docker(){
-	docker run --net pool-network --ip 172.2.0.10  --name pool1 --link pool1-mysql:mysql  \
+	docker run --net pool-network --ip 172.2.0.10 --mount source=pool1-files,destination=/var/www/html/pool/ --restart=unless-stopped --name pool1 --link pool1-mysql:mysql  \
 	-e WORDPRESS_DB_HOST=mysql \
 	-e WORDPRESS_DB_USER=root \
 	-e WORDPRESS_DB_PASSWORD=root \
