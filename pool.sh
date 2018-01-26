@@ -34,6 +34,9 @@ case $1 in
 	dump)
 		bash ${docker}tcpdump.sh $2 $3
 	;;
+	backup)
+		bash ${docker}backup.sh $2 $3 $4
+	;;
 	network)
 		case $2 in
 			show)

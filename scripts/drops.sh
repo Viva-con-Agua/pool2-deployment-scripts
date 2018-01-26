@@ -24,6 +24,7 @@ drops_setup_docker(){
 		-Dplay.mailer.user=$smtp_user \
 		-Dplay.mailer.password=$smtp_password \
 		-Dpool1.export=true \
+		-Dnats.ip="nats://172.2.100.2:4222" \
 		-Dpool1.url="https://vca.informatik.hu-berlin.de/pool?loginFnc=usercreate" 
 }
 # start drops docker

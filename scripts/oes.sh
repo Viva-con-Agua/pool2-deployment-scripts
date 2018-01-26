@@ -1,7 +1,7 @@
 #!/bin/bash
 
 setup_oes_docker(){	
-	docker run --net pool-network -d -p 5000:8222 --name pool-oes nats;
+	docker run --net pool-network --ip 172.2.100.2 -d --restart=unless-stopped -p 5000:8222 --name pool-oes nats;
 }
 
 

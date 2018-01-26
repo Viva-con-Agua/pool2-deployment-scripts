@@ -1,0 +1,15 @@
+version: '3'
+pool1-backup:
+        image: zeenlym/mariadb-backup
+        environment:
+            - TIMEZONE=Europe/Berlin
+            - SCHEDULE=0 0 3 * *
+            - BACKUP_METHOD=mysqldump
+            - MYSQL_HOST=mysql
+            - MYSQL_DATABASE=db175370026
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=root
+	links:
+	    - pool1-mysql:mysql
+        volumes:
+            - pool1-backup-volume:/backup

@@ -6,10 +6,22 @@ dispenser_pull_docker(){
 	docker pull vivaconagua/dispenser:$1;
 }
 
+dispenser_setup_database(){
+	docker run --net pool-network --ip 172.2.1.3 --name dispenser-mongo --restart=unless-stopped -d mongo;
+}
+
+dispenser_rm_database(){
+	docker stop dispenser-mongo;
+	docker rm dispenser-mongo;
+}
+
+
 dispenser_run_docker(){
-	docker run --net pool-network --ip 172.2.0.5 --name dispenser --restart=unless-stopped -d vivaconagua/dispenser:0.1.13-test \
+	docker run --net pool-network --ip 172.2.0.5 --name dispenser --restart=unless-stopped --link dispenser-mongo:mongo -d vivaconagua/dispenser:0.1.13-test \
 		-Dplay.evolutions.db.default.autoApply=true \
+		-Dmongodb.uri=mongodb://mongo/dispenser \
 		-Dconfig.resource=application.conf \
+		-Ddrops.dropsURL='http://172.2.0.3/' \
 		-Ddrops.redirectUrl="https://vca.informatik.hu-berlin.de/drops/oauth2/code/get/dispenser" \
 		-Ddrops.getTokenUrl="" \
 		-Ddrops.grant_type="authorization_code" \
@@ -31,9 +43,6 @@ dispenser-assets_rm_docker(){
 	docker rm dispenser-assets;
 }
 
-dispenser_run_db(){
-	docker run --net pool-network --ip 172.2.1.6 --name dispenser-db --restart=unless-stopped -d mongo
-}
 
 case $1 in
 	run)	
@@ -75,7 +84,19 @@ case $1 in
 		esac
 		;;
 	pull)
-		dispenser_pull_docker
+		dispenser_pull_docker $2
+		;;
+	db)
+		case $2 in 
+			run)
+				dispenser_setup_database
+			;;
+			rm)
+				dispenser_rm_database
+			;;
+		*)
+			echo "read doku"
+		esac
 		;;
 	*)
 		echo $"Usage: $0 {run|start|stop|rm|db}"
