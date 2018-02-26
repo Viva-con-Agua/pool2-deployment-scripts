@@ -1,6 +1,6 @@
 #!/bin/bash
 path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
-confPath=$"${path}/../conf/drops"
+confPath=$"${path}/../conf/dispenser"
 
 dispenser_pull_docker(){
 	docker pull vivaconagua/dispenser:$1;
@@ -17,17 +17,15 @@ dispenser_rm_database(){
 
 
 dispenser_run_docker(){
-	docker run --net pool-network --ip 172.2.0.5 --name dispenser --restart=unless-stopped --link dispenser-mongo:mongo -d vivaconagua/dispenser:0.1.13-test \
+	docker create --net pool-network --ip 172.2.0.5 --name dispenser --restart=unless-stopped --link dispenser-mongo:mongo -p 5001:9000  vivaconagua/dispenser:0.2.3 \
 		-Dplay.evolutions.db.default.autoApply=true \
+		-Dplay.http.secret.key"ösjkadfhkjsadfaösjdfnisajdnfsöjkadfn" \
 		-Dmongodb.uri=mongodb://mongo/dispenser \
 		-Dconfig.resource=application.conf \
-		-Ddrops.dropsURL='http://172.2.0.3/' \
-		-Ddrops.redirectUrl="https://vca.informatik.hu-berlin.de/drops/oauth2/code/get/dispenser" \
-		-Ddrops.getTokenUrl="" \
-		-Ddrops.grant_type="authorization_code" \
-		-Ddrops.client_id="dispenser" \
-		-Ddrops.redirectUri="" \
+		-Ddispenser.hostURL="https://vca.informatik.hu-berlin.de/dispenser" \
 		-Dplay.http.context="/dispenser"; 
+	docker cp ${confPath}/application.0.1.3-dev.conf dispenser:/opt/docker/conf/application.conf; 
+	docker start dispenser;
 }
 
 dispenser_rm_docker(){
@@ -35,32 +33,11 @@ dispenser_rm_docker(){
 	docker rm dispenser;
 }
 
-dispenser-assets_run_docker(){
-	docker run --net pool-network --ip 172.2.0.6 --name dispenser-assets -d vivaconagua/dispenser-assets:latest;
-}
-dispenser-assets_rm_docker(){
-	docker stop dispenser-assets;
-	docker rm dispenser-assets;
-}
-
 
 case $1 in
 	run)	
-		case $2 in
-			all)
-				dispenser_run_docker
-				dispenser-assets_run_docker
-			;;
-			dispenser)
-				dispenser_run_docker
-			;;
-			assets)
-				dispenser-assets_run_docker
-			;;
-			*)
-				echo "read doku "
-		esac
-		;;
+		dispenser_run_docker
+	;;
 	start)
 		docker start dispenser
 		;;
@@ -68,20 +45,7 @@ case $1 in
 		docker stop dispenser
 		;;
 	rm)	
-		case $2 in 
-			all)
-				dispenser_rm_docker
-				dispenser-assets_rm_docker
-			;;
-			dispenser)
-				dispenser_rm_docker
-			;;
-			assets)
-				dispenser-assets_run_docker
-			;;
-			*)
-				echo "read doku"
-		esac
+		dispenser_rm_docker
 		;;
 	pull)
 		dispenser_pull_docker $2

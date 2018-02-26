@@ -3,42 +3,42 @@
 path=$(cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 docker=$"${path}/scripts/"
 
-case $1 in
+case $2 in
 	nginx)
-		bash ${docker}nginx.sh $2 $3
+		bash ${docker}nginx.sh $1 $3
 	;;
 	traefik)
-		bash ${docker}traefik.sh $2
+		bash ${docker}traefik.sh $1
 	;;
 	drops)
-		bash ${docker}drops.sh $2 $3
+		bash ${docker}drops.sh $1 $3
 	;;
 	dispenser)
-		bash ${docker}dispenser.sh $2 $3
+		bash ${docker}dispenser.sh $1 $3
 	;;
 	sluice)
-		bash ${docker}sluice.sh $2 $3
+		bash ${docker}sluice.sh $1 $3
 	;; 
 	mail)
-		bash ${docker}mailserver.sh $2 $3
+		bash ${docker}mailserver.sh $1 $3
 	;; 
 	pool1)
-		bash ${docker}wordpress.sh $2 $3
+		bash ${docker}wordpress.sh $1 $3
 	;;
 	oes)
-		bash ${docker}oes.sh $2 $3
+		bash ${docker}oes.sh $1 $3
 	;;
 	list)
 		echo $"nginx" 
 	;;
 	dump)
-		bash ${docker}tcpdump.sh $2 $3
+		bash ${docker}tcpdump.sh $1 $3
 	;;
 	backup)
-		bash ${docker}backup.sh $2 $3 $4
+		bash ${docker}backup.sh $1 $3 $4
 	;;
 	network)
-		case $2 in
+		case $1 in
 			show)
 				docker network inspect pool-network
 			;;
