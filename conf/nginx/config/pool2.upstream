@@ -24,3 +24,8 @@ upstream php {
 	server unix:/tmp/php-cgi.socket;
         server 172.2.0.9:9000;
 }
+
+upstream oauthtest {
+	server 172.2.100.3:9000;
+}
+

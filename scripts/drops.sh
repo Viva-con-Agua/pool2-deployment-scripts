@@ -5,12 +5,16 @@ VERSION=`cat ${confPath}/VERSION`
 
 source ${path}/../pool2.conf
 source ${certPath}/password.conf
+source ${path}/conf/setup.conf
+
 # setup the drops docker with
 drops_setup_docker(){
-	docker run --net pool-network --ip 172.2.0.3 -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb  -v ${confPath}/application.${1}.conf:/conf/application.conf -d vivaconagua/drops:$1 \
+	docker run --net pool-network --ip 172.2.0.3 -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb  -v ${confPath}/application.${1}.conf:/conf/application.conf -d vivaconagua/drops:${1} \
 		-Dplay.crypto.secret=$drops_secret \
+		-Dplay.evolutions.enabled=true \
 		-Dplay.evolutions.db.default.autoApply=true \
 		-Dconfig.resource=application.conf \
+		-Dplay.evolutions.autoApply=true \
 		-Dplay.http.context="/drops" \
 		-Dlogin.flow.ms.switch=true \
 		-Dlogin.flow.ms.url=https://vca.informatik.hu-berlin.de/pool \
@@ -76,7 +80,7 @@ drops_db_remove_docker(){
 case $1 in
 	run)	
 		if [ -z "$2" ]; then 
-			drops_setup_docker ${VERSION}
+			drops_setup_docker $drops_version
 		else
 			drops_setup_docker $2
 		fi

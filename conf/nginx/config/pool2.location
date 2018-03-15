@@ -44,10 +44,15 @@ location /pool {
     	proxy_set_header   Host $http_host;	
 
 }
+#Oauth Test 
+location /oauthtest {
+	proxy_pass http://oauthtest;
+}
 
 #Root
 location / {
 	return 301 /drops/auth/signin;
 }
+
 
 
