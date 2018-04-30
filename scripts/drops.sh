@@ -9,9 +9,9 @@ source ${path}/conf/setup.conf
 
 # setup the drops docker with
 drops_setup_docker(){
-	docker run --net pool-network --ip 172.2.0.3 -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb  -v ${confPath}/application.${1}.conf:/conf/application.conf -d vivaconagua/drops:${1} \
+	docker run --net pool-network --ip 172.2.0.3 -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:${1} \
 		-Dplay.crypto.secret=$drops_secret \
-		-Dplay.evolutions.enabled=true \
+		-Dplay.evolutions.enabled=false \
 		-Dplay.evolutions.db.default.autoApply=true \
 		-Dconfig.resource=application.conf \
 		-Dplay.evolutions.autoApply=true \
@@ -29,7 +29,7 @@ drops_setup_docker(){
 		-Dplay.mailer.password=$smtp_password \
 		-Dpool1.export=false \
 		-Dnats.ip="nats://172.2.100.2:4222" \
-		-Ddispenser.ip="http://172.2.0.5:9000/dispenser/" \
+		-Ddispenser.ip="http://${dispenser_ip}:9000/dispenser/" \
 		-Dpool1.url="https://vca.informatik.hu-berlin.de/pool?loginFnc=usercreate" 
 }
 # start drops docker
@@ -73,6 +73,10 @@ drops_db_remove_docker(){
 	gzip /home/pool/backup/drops /home/pool/backup/drops_mongo_${cdate}.gzip
 }
 
+drops_pull_docker(){
+      docker pull vivaconagua/drops:${1};
+}
+
 
 
 
@@ -108,6 +112,13 @@ case $1 in
 	logs)
 		docker logs drops
 		;;
+        pull)
+                if [ -z "$2" ]; then
+                     drops_pull_docker $drops_version
+                else
+                     drops_pull_docker $2
+                fi
+                ;;
 	db)
 		case $2 in
 			run)	

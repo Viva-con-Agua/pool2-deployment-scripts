@@ -2,6 +2,8 @@
 path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 confPath=$"${path}/../conf/dispenser"
 
+source ${path}/../conf/setup.conf
+
 dispenser_pull_docker(){
 	docker pull vivaconagua/dispenser:$1;
 }
@@ -17,15 +19,22 @@ dispenser_rm_database(){
 
 
 dispenser_run_docker(){
-	docker create --net pool-network --ip 172.2.0.5 --name dispenser --restart=unless-stopped --link dispenser-mongo:mongo -p 5001:9000  vivaconagua/dispenser:0.2.3 \
+	docker create --net pool-network --ip $dispenser_ip --name dispenser --restart=unless-stopped --link dispenser-mongo:mongo -p 5001:9000  vivaconagua/dispenser:${1} \
 		-Dplay.evolutions.db.default.autoApply=true \
 		-Dplay.http.secret.key"ösjkadfhkjsadfaösjdfnisajdnfsöjkadfn" \
 		-Dmongodb.uri=mongodb://mongo/dispenser \
 		-Dconfig.resource=application.conf \
-		-Ddispenser.hostURL="https://vca.informatik.hu-berlin.de/dispenser" \
+		-Ddispenser.hostURL="https://vca.informatik.hu-berlin.de" \
 		-Dplay.http.context="/dispenser"; 
-	docker cp ${confPath}/application.0.1.3-dev.conf dispenser:/opt/docker/conf/application.conf; 
+	#docker cp ${confPath}/application.0.1.3-dev.conf dispenser:/opt/docker/conf/application.conf; 
 	docker start dispenser;
+}
+
+dispenser_set_navigation(){
+  docker cp ${confPath}/navigations/. dispenser:/opt/docker/conf/navigation/jsons/
+  curl -X GET http://${dispenser_ip}:9000/dispenser/navigation/init
+
+
 }
 
 dispenser_rm_docker(){
@@ -33,10 +42,10 @@ dispenser_rm_docker(){
 	docker rm dispenser;
 }
 
-
 case $1 in
+
 	run)	
-		dispenser_run_docker
+		dispenser_run_docker $dispenser_version
 	;;
 	start)
 		docker start dispenser
@@ -50,6 +59,9 @@ case $1 in
 	pull)
 		dispenser_pull_docker $2
 		;;
+        init)
+                dispenser_set_navigation
+                ;;
 	db)
 		case $2 in 
 			run)

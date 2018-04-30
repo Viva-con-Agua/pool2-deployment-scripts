@@ -33,10 +33,15 @@ case $1 in
 	stop)
 		docker stop nginx-docker
 		;;
-	rm)
+	rm) 
 		docker stop nginx-docker
 		docker rm nginx-docker
-		;;
+		;;   
+        restart)
+               docker stop nginx-docker
+               docker rm  nginx-docker
+               nginx_run_docker $hostname
+               ;;
 	logs)
 		docker logs nginx-docker
 		;;

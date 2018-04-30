@@ -37,6 +37,9 @@ case $2 in
 	backup)
 		bash ${docker}backup.sh $1 $3 $4
 	;;
+        bloob)
+                bash ${docker}bloob.sh $1 $3 $4
+        ;;
 	network)
 		case $1 in
 			show)
