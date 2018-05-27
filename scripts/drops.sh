@@ -9,9 +9,9 @@ source ${path}/conf/setup.conf
 
 # setup the drops docker with
 drops_setup_docker(){
-	docker run --net pool-network --ip 172.2.0.3 -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:${1} \
+	docker run --net pool-network --ip $drops_ip  --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:${1} \
 		-Dplay.crypto.secret=$drops_secret \
-		-Dplay.evolutions.enabled=false \
+		-Dplay.evolutions.enabled=true \
 		-Dplay.evolutions.db.default.autoApply=true \
 		-Dconfig.resource=application.conf \
 		-Dplay.evolutions.autoApply=true \
@@ -27,7 +27,7 @@ drops_setup_docker(){
 		-Dplay.mailer.host=mailbox.informatik.hu-berlin.de \
 		-Dplay.mailer.user=$smtp_user \
 		-Dplay.mailer.password=$smtp_password \
-		-Dpool1.export=false \
+		-Dpool1.export=true \
 		-Dnats.ip="nats://172.2.100.2:4222" \
 		-Ddispenser.ip="http://${dispenser_ip}:9000/dispenser/" \
 		-Dpool1.url="https://vca.informatik.hu-berlin.de/pool?loginFnc=usercreate" 
@@ -44,8 +44,8 @@ drops_remove_docker(){
 
 # setup drops db docker
 drops_db_setup_docker(){
-	docker run --net pool-network --ip 172.2.2.1 --name drops-mongo --restart=unless-stopped -d mongo;
-	docker run --net pool-network --ip 172.2.1.2 --name drops-mariadb --restart=unless-stopped \
+	docker run --net pool-network --ip $drops_db_mongo_ip --name drops-mongo --restart=unless-stopped -d mongo;
+	docker run --net pool-network --ip $drops_db_maria_ip --name drops-mariadb --restart=unless-stopped \
 		-e MYSQL_ROOT_PASSWORD=drops \
 	    	-e MYSQL_DATABASE=drops \
     		-e MYSQL_USER=drops \
