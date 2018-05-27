@@ -9,7 +9,8 @@ dispenser_pull_docker(){
 }
 
 dispenser_setup_database(){
-	docker run --net pool-network --ip 172.2.1.3 --name dispenser-mongo --restart=unless-stopped -d mongo;
+         
+	docker run --net pool-network --ip $dispenser_db_mongo_ip --name dispenser-mongo --restart=unless-stopped -d mongo;
 }
 
 dispenser_rm_database(){
@@ -24,7 +25,7 @@ dispenser_run_docker(){
 		-Dplay.http.secret.key"ösjkadfhkjsadfaösjdfnisajdnfsöjkadfn" \
 		-Dmongodb.uri=mongodb://mongo/dispenser \
 		-Dconfig.resource=application.conf \
-		-Ddispenser.hostURL="https://vca.informatik.hu-berlin.de" \
+		-Ddispenser.hostURL=${hostUrl} \
 		-Dplay.http.context="/dispenser"; 
 	#docker cp ${confPath}/application.0.1.3-dev.conf dispenser:/opt/docker/conf/application.conf; 
 	docker start dispenser;

@@ -3,9 +3,10 @@ path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 confPath=$"${path}/../conf/nginx"
 certPath=$"/home/pool/Pool/cert"
 source ${path}/../pool2.conf
+source ${path}/conf/setup.conf
 
 nginx_run_docker(){
-	docker run --net pool-network --ip 172.2.0.2 --name nginx-docker --restart=unless-stopped -p 443:443 -p 80:80 \
+	docker run --net pool-network --ip $nginx_ip --name nginx-docker --restart=unless-stopped -p 443:443 -p 80:80 \
 		-v ${confPath}/config:/etc/nginx/conf.d/ \
 		-v ${confPath}/config/test.html:/var/www/html/test \
 		-v ${certPath}/${1}.chained.pem:/etc/nginx/${1}.pem \
@@ -17,6 +18,13 @@ nginx_run_docker(){
 	#	-d nginx:1.13.7 
 
 }
+nginx_run_dev_docker(){
+      docker run --net pool-network --ip $nginx_ip --name nginx-docker --restart=unless-stopped -p 80:80 \
+               -v ${confPath}/config/default_dev.conf:/etc/nginx/conf.d/default.conf \
+               -v ${confPath}/config/pool2.location:/etc/nginx/conf.d/pool2.location \
+               -v ${confPath}/config/pool2.upstream:/etc/nginx/conf.d/pool2.upstream \
+               -d nginx:1.12.1 'nginx-debug' '-g' 'daemon off;';
+}
 
 
 case $1 in
@@ -27,6 +35,9 @@ case $1 in
 			nginx_run_docker $2
 		fi
 		;;
+        dev)
+               nginx_run_dev_docker
+               ;;
 	start) 
 		docker start nginx-docker
 		;;

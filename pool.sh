@@ -25,8 +25,8 @@ case $2 in
 	pool1)
 		bash ${docker}wordpress.sh $1 $3
 	;;
-	oes)
-		bash ${docker}oes.sh $1 $3
+	nats)
+		bash ${docker}nats.sh $1 $3
 	;;
 	list)
 		echo $"nginx" 
@@ -39,6 +39,12 @@ case $2 in
 	;;
         bloob)
                 bash ${docker}bloob.sh $1 $3 $4
+        ;;
+        database)
+                bash ${docker}database.sh $1 $3 $4
+        ;;
+        setup)
+                bash ${docker}pool-setup.sh $1 $3 $4
         ;;
 	network)
 		case $1 in

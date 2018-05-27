@@ -4,7 +4,7 @@ confPath=$"/home/pool/Pool/conf/nginx"
 certPath=$"/home/pool/Pool/cert"
 
 mailserver_setup(){
-	docker run --net pool-network --ip 172.2.0.4 \
+	docker run --net pool-network --ip $mailer_ip \
 	 -e POSTFIX_myhostname=vca.informatik.hu-berlin.de \
     	--name mail-docker \
     	-d mwader/postfix-relay;
