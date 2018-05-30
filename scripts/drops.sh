@@ -1,17 +1,18 @@
 #!/bin/bash
-path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
-confPath=$"${path}/../conf/drops"
+#path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+confPath=$"${path}/conf/drops"
 VERSION=`cat ${confPath}/VERSION`
 
-source ${path}/../pool2.conf
+source ${path}/pool2.conf
 source ${certPath}/password.conf
 source ${path}/conf/setup.conf
 
 # setup the drops docker with
 drops_setup_docker(){
+        echo "setup Drops";
 	docker run --net pool-network --ip $drops_ip -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:${1} \
 		-Dplay.crypto.secret=$drops_secret \
-		-Dplay.evolutions.enabled=false \
+		-Dplay.evolutions.enabled=true \
 		-Dplay.evolutions.db.default.autoApply=true \
 		-Dconfig.resource=application.conf \
 		-Dplay.evolutions.autoApply=true \
@@ -35,9 +36,10 @@ drops_setup_docker(){
 
 #setup docker for dev system. Without mailer!!!! Mails over pool logs drops
 drops_setup_dev_docker(){
+         "setup Drops in dev mode";
 	docker run --net pool-network --ip $drops_ip -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:${1} \
 		-Dplay.crypto.secret=$drops_secret \
-		-Dplay.evolutions.enabled=false \
+		-Dplay.evolutions.enabled=true \
 		-Dplay.evolutions.db.default.autoApply=true \
 		-Dconfig.resource=application.conf \
 		-Dplay.evolutions.autoApply=true \
@@ -57,16 +59,19 @@ drops_setup_dev_docker(){
 
 # start drops docker
 drops_start_docker(){
+         echo "start Drops";
 	docker start drops;
 }
 # remove drops docker
 drops_remove_docker(){
+         echo "remove Drops";
 	docker stop drops;
 	docker rm drops;
 }
 
 # setup drops db docker
 drops_db_setup_docker(){
+        echo "setup Drops database";
 	docker run --net pool-network --ip $drops_db_mongo_ip --name drops-mongo --restart=unless-stopped -d mongo;
 	docker run --net pool-network --ip $drops_db_maria_ip --name drops-mariadb --restart=unless-stopped \
 		-e MYSQL_ROOT_PASSWORD=drops \
@@ -79,11 +84,13 @@ drops_db_setup_docker(){
 }
 
 drops_db_stop_docker(){
+         echo "stop Drops database";
 	docker stop drops-mariadb
 	docker stop drops-mongo
 }
 
 drops_db_start_docker(){
+         echo "start Drops database";
 	docker start drops-mongo;
 	docker start drops-mariadb;	
 }
@@ -100,80 +107,15 @@ drops_pull_docker(){
       docker pull vivaconagua/drops:${1};
 }
 
+drops_clean_up(){
+   docker stop drops-mariadb;
+   docker stop drops-mongo;
+   docker stop drops;
+   docker rm drops-mariadb;
+   docker rm drops-mongo;
+   docker rm drops;
+}
 
 
 
 
-case $1 in
-	run)	
-		if [ -z "$2" ]; then 
-			drops_setup_docker $drops_version
-		else
-			drops_setup_docker $2
-		fi
-		;;
-        dev)
-               if [ -z "$2" ]; then 
-			drops_setup_dev_docker $drops_version
-		else
-			drops_setup_dev_docker $2
-		fi
-		;;
-
-	backup)
-		drops_db_remove_docker
-		;;
-	reset)
-		drops_remove_docker
-		if [ -z "$2" ]; then 
-			drops_setup_docker ${VERSION}
-		else
-			drops_setup_docker $2
-		fi
-		;;
-	start)
-		docker start drops
-		;;
-	stop) 
-		docker stop drops
-		;;
-	rm)
-		drops_remove_docker
-		;;
-	logs)
-		docker logs drops
-		;;
-        pull)
-                if [ -z "$2" ]; then
-                     drops_pull_docker $drops_version
-                else
-                     drops_pull_docker $2
-                fi
-                ;;
-	db)
-		case $2 in
-			run)	
-				drops_db_setup_docker
-				;;
-			start)
-				docker start drops-mongo
-				docker start drops-mariadb
-				;;
-			stop) 
-				docker stop drops-mongo
-				docker stop drops-mariadb
-				;;
-			rm)
-				docker stop drops-mongo
-				docker stop drops-mariadb
-				docker rm drops-mongo
-				docker rm drops-mariadb
-				;;
-			*)
-				echo $"Usage: $0 {run|start|stop|rm}"
-		esac
-		;;
-	*)
-		echo $"Usage: $0 {run|start|stop|rm|db}"
-esac
- 

@@ -34,3 +34,9 @@ upstream oauthtest {
 	server 172.2.100.3:9000;
 }
 
+
+#SMCS
+# 172.2.0.1 is the gateway to localhost, so
+upstream sozmed {
+   server 127.0.0.1:8080;
+}

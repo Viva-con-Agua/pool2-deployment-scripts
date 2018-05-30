@@ -13,16 +13,3 @@ sluice_rm_docker(){
 	docker rm sluice
 }
 
-case $1 in 
-	run)
-		sluice_setup_docker
-	;;
-	stop) 
-		sluice_stop_docker
-	;;
-	rm)	
-		sluice_rm_docker
-	;;
-	*)
-		echo "Fail bei sluice"
-esac

@@ -1,6 +1,15 @@
 #define url Path
 
 
+## sozmed location
+
+location /sozmed {
+   proxy_pass http://sozmed;
+}
+
+
+
+
 # Drops 
 location /drops {
 	proxy_pass http://drops;

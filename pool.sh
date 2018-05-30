@@ -1,62 +1,269 @@
 #!/bin/bash
 
-path=$(cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
-docker=$"${path}/scripts/"
+########################################
+#                                      #
+# setup script for Pool² Version 0.0.1 #
+#                                      #
+########################################
 
-case $2 in
-	nginx)
-		bash ${docker}nginx.sh $1 $3
-	;;
-	traefik)
-		bash ${docker}traefik.sh $1
-	;;
-	drops)
-		bash ${docker}drops.sh $1 $3
-	;;
-	dispenser)
-		bash ${docker}dispenser.sh $1 $3
-	;;
-	sluice)
-		bash ${docker}sluice.sh $1 $3
-	;; 
-	mail)
-		bash ${docker}mailserver.sh $1 $3
-	;; 
-	pool1)
-		bash ${docker}wordpress.sh $1 $3
-	;;
-	nats)
-		bash ${docker}nats.sh $1 $3
-	;;
-	list)
-		echo $"nginx" 
-	;;
-	dump)
-		bash ${docker}tcpdump.sh $1 $3
-	;;
-	backup)
-		bash ${docker}backup.sh $1 $3 $4
-	;;
-        bloob)
-                bash ${docker}bloob.sh $1 $3 $4
+path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+scripts=$"${path}"
+
+source ${path}/conf/setup.conf
+
+#include function for deploy docker
+
+source ${path}/scripts/nginx.sh
+source ${path}/scripts/bloob.sh
+source ${path}/scripts/dispenser.sh
+source ${path}/scripts/nats.sh
+source ${path}/scripts/sluice.sh
+source ${path}/scripts/wordpress.sh
+source ${path}/scripts/setup.sh
+source ${path}/scripts/drops.sh
+
+
+case $2 in 
+   nginx)
+      case $1 in
+	run)
+		if [ -z "$3" ]; then 
+			nginx_run_docker $hostname
+		else
+			nginx_run_docker $3
+		fi
+		;;
+        dev)
+               nginx_run_dev_docker
+               ;;
+	start) 
+		docker start nginx-docker
+		;;
+	stop)
+		docker stop nginx-docker
+		;;
+	rm) 
+		docker stop nginx-docker
+		docker rm nginx-docker
+		;;   
+        restart)
+               docker stop nginx-docker
+               docker rm  nginx-docker
+               nginx_run_dev_docker
+               ;;
+	logs)
+		docker logs nginx-docker
+		;;
+	set-host)
+		if [ ! -f ${confPath}/config/ssl.conf ]
+		then	
+			touch ${confPath}/config/ssl.conf
+			echo "ssl_certificate ${3}.pem;" > ${confPath}/config/ssl.conf
+			echo "ssl_certificate_key ${3}.key;" >> ${confPath}/config/ssl.conf
+		else
+			rm ${confPath}/config/ssl.conf	
+		 	touch ${confPath}/config/ssl.conf	
+			echo "ssl_certificate ${3}.pem;" > ${confPath}/config/ssl.conf     	
+		        echo "ssl_certificate_key ${3}.key;" >> ${confPath}/config/ssl.conf
+		fi
+		;;
+	*)
+		echo $"Usage: $0 {run|start|stop|rm}"
+		exit 1
+        esac
         ;;
-        database)
-                bash ${docker}database.sh $1 $3 $4
-        ;;
-        setup)
-                bash ${docker}pool-setup.sh $1 $3 $4
-        ;;
-	network)
-		case $1 in
-			show)
-				docker network inspect pool-network
+   dispenser)
+      case $1 in
+
+	run)	
+		dispenser_run_docker $dispenser_version
+	;;
+	start)
+		docker start dispenser
+		;;
+	stop) 
+		docker stop dispenser
+		;;
+	rm)	
+		dispenser_rm_docker
+		;;
+	pull)
+		dispenser_pull_docker $3
+		;;
+        init)
+                dispenser_set_navigation
+                ;;
+	db)
+		case $3 in 
+			run)
+				dispenser_setup_database
 			;;
-			*)
-				echo $"Usage: $0 {show}"
-				exit 1
+			rm)
+				dispenser_rm_database
+			;;
+		*)
+			echo "read doku"
 		esac
+		;;
+	*)
+		echo $"Usage: $0 {run|start|stop|rm|db}"
+      esac
+      ;;
+   sluice)
+      ;;
+   drops)
+      case $1 in
+	run)	
+		if [ -z "$3" ]; then 
+			drops_setup_dev_docker $drops_version
+		else
+			drops_setup_dev_docker $3
+		fi
+		;;
+        dev)
+               if [ -z "$3" ]; then 
+			drops_setup_dev_docker $drops_version
+		else
+			drops_setup_dev_docker $3
+		fi
+		;;
+
+	backup)
+		drops_db_remove_docker
+		;;
+	reset)
+		drops_remove_docker
+		if [ -z "$3" ]; then 
+			drops_setup_docker ${VERSION}
+		else
+			drops_setup_docker $3
+		fi
+		;;
+	start)
+		docker start drops
+		;;
+	stop) 
+		docker stop drops
+		;;
+	rm)
+		drops_remove_docker
+		;;
+	logs)
+		docker logs drops
+		;;
+        pull)
+                if [ -z "$3" ]; then
+                     drops_pull_docker $drops_version
+                else
+                     drops_pull_docker $3
+                fi
+                ;;
+	db)
+		case $3 in
+			run)	
+				drops_db_setup_docker
+				;;
+			start)
+				docker start drops-mongo
+				docker start drops-mariadb
+				;;
+			stop) 
+				docker stop drops-mongo
+				docker stop drops-mariadb
+				;;
+			rm)
+				docker stop drops-mongo
+				docker stop drops-mariadb
+				docker rm drops-mongo
+				docker rm drops-mariadb
+				;;
+			*)
+				echo $"Usage: $0 {run|start|stop|rm}"
+		esac
+		;;
+	*)
+		echo $"Usage: $0 {run|start|stop|rm|db}"
+   esac
+      ;;
+   bloob)
+      case $1 in 
+         run)
+            if [ -z "$3" ]; then
+               bloob_setup_docker $bloob_version
+            else
+               bloob_setup_docker $3
+            fi
+            ;;
+         rm)
+            docker stop bloob
+            docker rm bloob
+            ;;
+         logs)
+            docker logs bloob
+            ;;
+         db)
+            bloob_db_setup
+            ;;
+         *)
+         echo $"Usage: $0 {run|rm|logs}"
+      esac
+      ;;
+   nats)
+      case $1 in 
+	run)
+		setup_nats_docker
 	;;
- 	*)
-		echo $"Usage: $0 {list-docker|DOCKER}"
-		exit 1 
+	stop)
+		docker stop pool-nats
+	;;
+	rm)
+		docker stop pool-nats
+		docker rm pool-nats
+	;;
+	logs)
+		docker logs pool-nats
+	;;
+	exec)
+		docker exec -it pool-oes bash
+	;;
+	*)
+		echo "ERROR"
+	;;
+      esac
+      ;;
+   pool)
+      case $1 in
+	run)
+		pool1_setup_docker
+		;;
+	rm) 
+		pool1_rm_docker
+		;;
+	db)
+		case $2 in
+			run)
+				pool1_setup_db
+				;;
+			rm)
+				pool1_rm_db
+				;;
+			*)
+			echo "Error"
+	esac
+		;;
+	*)
+		echo "Error"
+      esac
+      ;;
+   setup)
+      case $1 in 
+         clean)
+            delete_pool_docker
+         ;;
+      *)
+         echo "error"
+      esac
+     ;; 
+   *)
+      echo "error"
 esac

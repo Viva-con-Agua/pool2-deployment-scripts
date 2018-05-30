@@ -1,7 +1,7 @@
 #!/bin/bash
 
-path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
-confPath=$"${path}/../conf/pool1"
+#path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+confPathPool1=$"${path}/conf/pool1"
 
 
 pool1_setup_db(){
@@ -29,25 +29,4 @@ pool1_rm_docker(){
 	docker rm pool1;
 }
 
-case $1 in
-	run)
-		pool1_setup_docker
-		;;
-	rm) 
-		pool1_rm_docker
-		;;
-	db)
-		case $2 in
-			run)
-				pool1_setup_db
-				;;
-			rm)
-				pool1_rm_db
-				;;
-			*)
-			echo "Error"
-	esac
-		;;
-	*)
-		echo "Error"
-esac
+
