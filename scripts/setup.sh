@@ -23,19 +23,30 @@ setup_folder(){
 
 setup_database(){
 	# Drops Databases
-	bash ${scripts}/drops.sh db run;
-        bash ${scripts}/dispenser db run;
-        bash ${schript}/bloob db run;
+        drops_db_setup_docker;
+        dispenser_setup_database;        
 }
 
+setup_dev_ms(){
+      dispenser_run_docker;
+      dispenser_set_navigation;
+      setup_nats_docker;
+      drops_setup_dev_docker;
+}
 setup_control_ms(){
-	bash ${scripts}/dispenser.sh run;
-        bash ${scripts}/nats.sh run;
+      dispenser_run_docker;
+      dispenser_set_navigation;
+      setup_nats_docker;
+      drops_setup_docker;
 }
 
 
 delete_pool_docker(){
    drops_clean_up;
    dispenser_clean_up;
+   docker stop pool-nats;
+   docker rm pool-nats;
+   docker stop nginx-docker;
+   docker rm nginx-docker;
 
 }

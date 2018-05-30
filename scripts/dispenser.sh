@@ -1,6 +1,6 @@
 #!/bin/bash
 #path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
-confPathDispenser=$"${path}/conf/dispenseR"
+confPathDispenser=$"${path}/conf/dispenser"
 
 source ${path}/conf/setup.conf
 
@@ -23,7 +23,7 @@ dispenser_rm_database(){
 
 dispenser_run_docker(){
         echo "setup dispesner";
-	docker create --net pool-network --ip $dispenser_ip --name dispenser --restart=unless-stopped --link dispenser-mongo:mongo -p 5001:9000  vivaconagua/dispenser:${1} \
+	docker create --net pool-network --ip $dispenser_ip --name dispenser --restart=unless-stopped --link dispenser-mongo:mongo -p 5001:9000  vivaconagua/dispenser:${dispenser_version} \
 		-Dplay.evolutions.db.default.autoApply=true \
 		-Dplay.http.secret.key"ösjkadfhkjsadfaösjdfnisajdnfsöjkadfn" \
 		-Dmongodb.uri=mongodb://mongo/dispenser \

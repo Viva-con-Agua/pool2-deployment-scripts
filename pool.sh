@@ -257,6 +257,10 @@ case $2 in
       ;;
    setup)
       case $1 in 
+         dev)
+            setup_database;
+            setup_dev_ms;
+            ;;
          clean)
             delete_pool_docker
          ;;
