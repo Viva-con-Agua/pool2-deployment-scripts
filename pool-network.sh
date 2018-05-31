@@ -1,1 +1,0 @@
-docker network create -d bridge --subnet 172.2.0.0/16 pool-network
