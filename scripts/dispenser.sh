@@ -39,10 +39,13 @@ dispenser_check_online(){
 }
 
 dispenser_set_navigation(){
-
-      echo "set Navigation";
-      docker cp ${confPathDispenser}/navigations/. dispenser:/opt/docker/conf/navigation/jsons/;
-      curl -X GET http://${dispenser_ip}:9000/dispenser/navigation/init;
+      if nc -z $dispenser_ip 9000; then
+         echo "set Navigation";
+         docker cp ${confPathDispenser}/navigations/. dispenser:/opt/docker/conf/navigation/jsons/;
+         curl -X GET http://${dispenser_ip}:9000/dispenser/navigation/init;
+      else
+         dispenser_set_navigation
+      fi;
 }
 
 
