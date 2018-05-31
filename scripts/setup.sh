@@ -21,6 +21,8 @@ setup_folder(){
   fi
 }
 
+
+
 setup_database(){
 	# Drops Databases
         drops_db_setup_docker;
@@ -32,9 +34,12 @@ setup_dev_ms(){
       dispenser_set_navigation;
       setup_nats_docker;
       drops_setup_dev_docker;
+      nginx_run_dev_docker;
 }
 setup_control_ms(){
+      setup_folder;
       dispenser_run_docker;
+      sleep 15;
       dispenser_set_navigation;
       setup_nats_docker;
       drops_setup_docker;

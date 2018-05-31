@@ -10,7 +10,7 @@ source ${path}/conf/setup.conf
 # setup the drops docker with
 drops_setup_docker(){
         echo "setup Drops";
-	docker run --net pool-network --ip $drops_ip -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:${1} \
+	docker run --net pool-network --ip $drops_ip -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:${drops_version} \
 		-Dplay.crypto.secret=$drops_secret \
 		-Dplay.evolutions.enabled=true \
 		-Dplay.evolutions.db.default.autoApply=true \
@@ -36,8 +36,8 @@ drops_setup_docker(){
 
 #setup docker for dev system. Without mailer!!!! Mails over pool logs drops
 drops_setup_dev_docker(){
-         "setup Drops in dev mode";
-	docker run --net pool-network --ip $drops_ip -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:${1} \
+         echo "setup Drops in dev mode";
+	docker run --net pool-network --ip $drops_ip -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:${drops_version} \
 		-Dplay.crypto.secret=$drops_secret \
 		-Dplay.evolutions.enabled=true \
 		-Dplay.evolutions.db.default.autoApply=true \

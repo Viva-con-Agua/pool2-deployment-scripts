@@ -34,13 +34,18 @@ dispenser_run_docker(){
 	docker start dispenser;
 }
 
-dispenser_set_navigation(){
-   echo "set Navigation" 
-   docker cp ${confPathDispenser}/navigations/. dispenser:/opt/docker/conf/navigation/jsons/
-   curl -X GET http://${dispenser_ip}:9000/dispenser/navigation/init
-
-
+dispenser_check_online(){
+      ping -c1 $dispenser_ip > /dev/null && echo "true" || echo "false";
 }
+
+dispenser_set_navigation(){
+
+      echo "set Navigation";
+      docker cp ${confPathDispenser}/navigations/. dispenser:/opt/docker/conf/navigation/jsons/;
+      curl -X GET http://${dispenser_ip}:9000/dispenser/navigation/init;
+}
+
+
 
 dispenser_rm_docker(){
          echo "remove dispenser";
