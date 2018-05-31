@@ -263,6 +263,13 @@ case $2 in
          clean)
             delete_pool_docker
          ;;
+         restart)
+            delete_pool_docker
+            setup_pool_dev
+         ;; 
+         cleanfull)
+            delete_pool_docker_full
+         ;;
       *)
          echo "error"
       esac

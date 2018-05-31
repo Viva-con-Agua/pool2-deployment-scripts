@@ -52,8 +52,19 @@ setup_control_ms(){
       drops_setup_docker;
 }
 
-
 delete_pool_docker(){
+   docker stop drops;
+   docker rm drops;
+   docker stop dispenser;
+   docker rm dispenser;
+   docker stop pool-nats;
+   docker rm pool-nats;
+   docker stop nginx-docker;
+   docker rm nginx-docker;
+
+}
+
+delete_pool_docker_full(){
    drops_clean_up;
    dispenser_clean_up;
    docker stop pool-nats;
