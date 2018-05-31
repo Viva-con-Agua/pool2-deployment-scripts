@@ -36,6 +36,13 @@ setup_dev_ms(){
       drops_setup_dev_docker;
       nginx_run_dev_docker;
 }
+
+setup_pool_dev(){
+      pool_create_subnet;
+      setup_database;
+      setup_dev_ms;
+}
+
 setup_control_ms(){
       setup_folder;
       dispenser_run_docker;
@@ -53,5 +60,6 @@ delete_pool_docker(){
    docker rm pool-nats;
    docker stop nginx-docker;
    docker rm nginx-docker;
+   pool_network_remove;
 
 }

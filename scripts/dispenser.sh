@@ -39,6 +39,9 @@ dispenser_check_online(){
 }
 
 dispenser_set_navigation(){
+      while ! nc -z $dispenser_ip 9000 ; do
+         sleep 1;
+      done;
       if nc -z $dispenser_ip 9000; then
          echo "set Navigation";
          docker cp ${confPathDispenser}/navigations/. dispenser:/opt/docker/conf/navigation/jsons/;

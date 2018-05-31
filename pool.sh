@@ -21,7 +21,7 @@ source ${path}/scripts/sluice.sh
 source ${path}/scripts/wordpress.sh
 source ${path}/scripts/setup.sh
 source ${path}/scripts/drops.sh
-
+source ${path}/scripts/subnet.sh
 
 case $2 in 
    nginx)
@@ -258,8 +258,7 @@ case $2 in
    setup)
       case $1 in 
          dev)
-            setup_database;
-            setup_dev_ms;
+            setup_pool_dev
             ;;
          clean)
             delete_pool_docker
