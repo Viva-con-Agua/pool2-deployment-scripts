@@ -1,6 +1,6 @@
 #!/bin/bash
 #path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
-confPath=$"${path}/conf/drops"
+confPathDrops=$"${path}/conf/drops"
 VERSION=`cat ${confPath}/VERSION`
 
 source ${path}/pool2.conf

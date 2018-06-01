@@ -38,6 +38,7 @@ setup_dev_ms(){
 }
 
 setup_pool_dev(){
+      setup_folder;
       pool_create_subnet;
       setup_database;
       setup_dev_ms;
