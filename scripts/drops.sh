@@ -44,13 +44,13 @@ drops_setup_dev_docker(){
 		-Dconfig.resource=application.conf \
 		-Dplay.evolutions.autoApply=true \
 		-Dplay.http.context="/drops" \
-		-Dlogin.flow.ms.switch=true \
+		-Dlogin.flow.ms.switch=false \
 		-Dlogin.flow.ms.url=https://vca.informatik.hu-berlin.de/pool \
 		-Dmongodb.uri=mongodb://mongo/drops \
 		-Dslick.dbs.default.db.url=jdbc:mysql://mariadb/drops \
 		-Dslick.dbs.default.db.user=drops \
 		-Dslick.dbs.default.db.password=drops \
-		-Dpool1.export=true \
+		-Dpool1.export=false \
 		-Dnats.ip="nats://${nats_ip}:4222" \
 		-Ddispenser.ip="http://${dispenser_ip}:9000/dispenser/" \
 		-Dpool1.url="https://vca.informatik.hu-berlin.de/pool?loginFnc=usercreate" 
