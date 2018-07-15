@@ -7,7 +7,8 @@
                                         "/drops/user/update",
 					"/drops/oauth2/register",
 					"/drops/auth/signout",
-                                        "/drops/organization/insert"
+                                        "/drops/organization/insert",
+																				"/drops/impressum"
 	],
 	"entrys": [
 		{
