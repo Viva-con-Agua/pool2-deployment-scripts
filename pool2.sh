@@ -13,14 +13,26 @@ source ${path}/conf/setup.conf
 
 #include function for deploy docker
 
-source ${path}/scripts/nginx.sh
-source ${path}/scripts/bloob.sh
-source ${path}/scripts/dispenser.sh
-source ${path}/scripts/nats.sh
+source ${path}/controller/nginx_controller.sh
+source ${path}/controller/bloob.sh
+source ${path}/controller/dispenser_controller.sh
+source ${path}/controller/nats_controller.sh
 source ${path}/scripts/sluice.sh
 source ${path}/scripts/wordpress.sh
-source ${path}/scripts/setup.sh
-source ${path}/scripts/drops.sh
-source ${path}/scripts/subnet.sh
+source ${path}/controller/setup_controller.sh
+source ${path}/controller/drops_controller.sh
+source ${path}/controller/ripple_controller.sh
+source ${path}/controller/subnet_controller.sh
 
+case ${@: -1} in
 
+  drops) drops_controller $@;;
+  ripple) ripple_controller $@;;
+  nginx) nginx_controller $@;;
+  dispenser) dispenser_controller $@;;
+  bloob) bloob_controller $@;;
+  setup) setup_controller $@;;
+  subnet) subnet_controller $@;;
+  nats) nats_controller $@;;
+  *) echo "microservice not supported"
+esac

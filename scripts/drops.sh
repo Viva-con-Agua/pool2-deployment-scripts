@@ -103,7 +103,7 @@ drops_db_remove_docker(){
 }
 
 drops_pull_docker(){
-      docker pull vivaconagua/drops:${1};
+      docker pull vivaconagua/drops:${drops_version};
 }
 
 drops_clean_up(){

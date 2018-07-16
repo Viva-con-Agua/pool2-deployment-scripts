@@ -2,7 +2,7 @@
 
 ########################################
 #                                      #
-# setup script for Pool² Version 0.0.1 #
+# setup script for Pool² Version 0.1.1 #
 #                                      #
 ########################################
 
@@ -127,15 +127,18 @@ case $2 in
 			              drops_setup_docker ${VERSION}
 		            else
 			              drops_setup_docker $3
-		    fi
-		;;
-	start)
-		docker start drops
-		;;
-	stop) 
-		docker stop drops
-		;;
-	rm)
+		   
+                fi
+		
+           ;;
+	
+           start)
+		          docker start drops
+		       ;;
+	        stop) 
+		        docker stop drops
+		      ;;
+	        rm)
 		drops_remove_docker
 		;;
 	logs)
