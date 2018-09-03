@@ -64,8 +64,7 @@ drops_start_docker(){
 # remove drops docker
 drops_remove_docker(){
          echo "remove Drops";
-	docker stop drops;
-	docker rm drops;
+	docker rm -f drops;
 }
 
 # setup drops db docker

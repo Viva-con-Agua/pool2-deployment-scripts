@@ -1,7 +1,29 @@
 #define url Path
 ## sozmed location
 
-location /ripple {
+
+
+#location /develop {
+#   proxy_pass http://develop;
+#  # try_files $uri $uri/ /index.html;
+#   proxy_set_header   X-Real-IP $remote_addr;
+#        proxy_set_header   X-Forwarded-Proto $scheme;
+#       proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+#        proxy_set_header   Host $http_host;
+#}
+
+location /arise {
+   proxy_pass http://arise;
+  # try_files $uri $uri/ /index.html;
+   proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+       proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   Host $http_host;
+}
+
+
+
+location /ripple/ {
    proxy_pass http://ripple;
   # try_files $uri $uri/ /index.html;
    proxy_set_header   X-Real-IP $remote_addr;

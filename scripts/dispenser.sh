@@ -52,8 +52,7 @@ dispenser_set_navigation(){
 
 dispenser_rm_docker(){
          echo "remove dispenser";
-	docker stop dispenser;
-	docker rm dispenser;
+	docker rm -f dispenser;
 }
 dispenser_clean_up(){
    docker stop dispenser-mongo;
