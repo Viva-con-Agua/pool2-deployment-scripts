@@ -28,6 +28,12 @@ dispenser_run_docker(){
 		-Dmongodb.uri=mongodb://mongo/dispenser \
 		-Dconfig.resource=application.conf \
 		-Ddispenser.hostURL=${hostUrl} \
+    -Dms.name="DISPENSER" \
+    -Dms.host="http://localhost/dispenser" \
+    -Dms.entrypoint="/authenticate/drops" \
+    -Ddrops.url.base="http://localhost/drops" \
+    -Ddrops.client_id="dispenser" \
+    -Ddrops.client_secret="dispenser" \
 		-Dplay.http.context="/dispenser"; 
 }
 

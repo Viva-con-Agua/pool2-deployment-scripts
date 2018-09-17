@@ -24,9 +24,9 @@ source ${path}/controller/drops_controller.sh
 source ${path}/controller/ripple_controller.sh
 source ${path}/controller/subnet_controller.sh
 source ${path}/controller/arise_controller.sh
-
+source ${path}/controller/webapps_controller.sh
 case ${@: -1} in
-
+  webapps) webapps_controller $@;;
   drops) drops_controller $@;;
   ripple) ripple_controller $@;;
   nginx) nginx_controller $@;;

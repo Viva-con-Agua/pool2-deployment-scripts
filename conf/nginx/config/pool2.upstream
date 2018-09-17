@@ -1,21 +1,26 @@
 #Drops
-#upstream drops {
-#        server 172.2.0.3:9000;
-#}
-#
-#upstream arise {
-#        server 172.2.50.1:8080;  
-#}
-
-# for local develop
-
 upstream drops {
-        server 127.0.0.1:9000;
+        server 172.2.0.3:9000;
 }
 
 upstream arise {
-        server 127.0.0.1:8080;  
+        server 172.2.50.1:8080;  
 }
+
+#WebApps_Drops_Oauth
+upstream webapps {
+  server 172.2.100.5:9000;
+}
+
+# for local develop
+
+#upstream drops {
+#        server 127.0.0.1:9000;
+#}
+
+#upstream arise {
+#        server 127.0.0.1:8080;  
+#}
 
 #Bloob
 #upstream bloob {
