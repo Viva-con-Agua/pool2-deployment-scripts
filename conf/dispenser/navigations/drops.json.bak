@@ -1,0 +1,40 @@
+{
+	"name":"GlobalNav",
+	"involved":[
+					"/drops",
+					"/drops/task",
+					"/drops/profile",
+                                        "/drops/user/update",
+					"/drops/oauth2/register",
+					"/drops/auth/signout",
+                                        "/drops/organization/insert",
+																				"/drops/impressum"
+	],
+	"entrys": [
+		{
+			"lable":"TaskOverView",
+			"render":true,
+			"url":"/drops/task"
+		},
+		{
+			"lable":"PROFILE",
+			"render":true,
+			"url":"/drops/profile"
+		},
+                {    
+                        "lable":"Organizations",
+                        "render":true,
+                        "url":"/drops/organization/insert"
+                },
+		{
+			"lable":"OAUTH-ClIENT",
+			"render":true,
+			"url":"/drops/oauth2/register"
+		},
+		{
+			"lable":"SIGN OUT",
+			"render":true,
+			"url":"/drops/auth/signout"
+		}
+	]		
+}

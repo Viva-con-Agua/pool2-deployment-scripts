@@ -1,39 +1,22 @@
+
 #Drops
 upstream drops {
         server 172.2.0.3:9000;
 }
 
-upstream arise {
-        server 172.2.50.1:8080;  
-}
-
-#WebApps_Drops_Oauth
 upstream webapps {
-  server 172.2.100.5:9000;
+        server 172.2.50.3:9000;
 }
 
-# for local develop
-
-#upstream drops {
-#        server 127.0.0.1:9000;
-#}
-
-#upstream arise {
-#        server 127.0.0.1:8080;  
-#}
 
 #Bloob
-#upstream bloob {
-#        server 172.2.0.5:9000;
-#}
 upstream bloob {
-    server 127.0.0.1:9000;
+        server 172.2.0.5:9000;
 }
-
 
 #Dispenser
 upstream dispenser {
-    server 172.2.100.4:9000;
+	server 172.2.100.4:9000;
 }
 # 
 upstream dispenserassets{
@@ -42,27 +25,23 @@ upstream dispenserassets{
 
 #good old pool 
 upstream pool {
-    server 172.2.0.10:80;
+	server 172.2.0.10:80;
 }
+
+#arise
+upstream arise {
+         server 172.2.50.1:80;
+}
+
 
 #php
 
 upstream php {
-    server unix:/tmp/php-cgi.socket;
+	server unix:/tmp/php-cgi.socket;
         server 172.2.0.9:9000;
 }
 
 upstream oauthtest {
-    server 172.2.100.3:9000;
+	server 172.2.100.3:9000;
 }
 
-
-#SMCS
-# 172.2.0.1 is the gateway to localhost, so
-upstream ripple {
-   server 172.2.50.2:8080;
-}
-
-#upstream develop {
-#    server 127.0.0.1:8080;
-#}

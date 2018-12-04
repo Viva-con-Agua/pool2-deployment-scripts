@@ -16,6 +16,7 @@ drops_setup_docker(){
 		-Dconfig.resource=application.conf \
 		-Dplay.evolutions.autoApply=true \
 		-Dplay.http.context="/drops" \
+                -Dwebapp.host="https://vca.informatik.hu-berlin.de" \
 		-Dlogin.flow.ms.switch=true \
 		-Dlogin.flow.ms.url=https://vca.informatik.hu-berlin.de/pool \
 		-Dmongodb.uri=mongodb://mongo/drops \

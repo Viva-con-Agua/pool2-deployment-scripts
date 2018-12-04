@@ -19,12 +19,20 @@ nginx_controller(){
             p) nginx_run_docker;;
           esac
         done
-        nginx_run_dev_docker
+        case ${deploy} in
+         prod) nginx_run_docker;;
+         dev) nginx_run_dev_docker;;
+        esac
       ;;
       start) docker start nginx-docker;;
       stop) docker stop nginx-docker;;
       rm) docker rm -f nginx-docker;;   
-      restart) docker rm -f nginx-docker; nginx_run_dev_docker;;
+      restart)
+        case ${deploy} in 
+           prod) docker rm -f nginx-docker; nginx_run_docker;;
+           dev) docker rm -f nginx-docker; nginx_run_dev_docker;;
+        esac
+        ;;
       logs) docker logs nginx-docker;;
       *)
           echo $"Usage: $0 {run|start|stop|rm}"

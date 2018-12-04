@@ -28,13 +28,13 @@ dispenser_run_docker(){
 		-Dmongodb.uri=mongodb://mongo/dispenser \
 		-Dconfig.resource=application.conf \
 		-Ddispenser.hostURL=${hostUrl} \
-    -Dms.name="DISPENSER" \
-    -Dms.host="http://localhost/dispenser" \
+     -Dms.name="DISPENSER" \
+    -Dms.host="https://vca.informatik.hu-berlin.de/dispenser" \
     -Dms.entrypoint="/authenticate/drops" \
-    -Ddrops.url.base="http://localhost/drops" \
+    -Ddrops.url.base="https://vca.informatik.hu-berlin.de/drops" \
     -Ddrops.client_id="dispenser" \
-    -Ddrops.client_secret="dispenser" \
-		-Dplay.http.context="/dispenser"; 
+    -Ddrops.client_secret="${dispenser_secret_oauth}" \
+   -Dplay.http.context="/dispenser"; 
 }
 
 dispenser_check_online(){
