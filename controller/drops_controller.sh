@@ -19,7 +19,10 @@ drops_controller(){
           D) drops_db_setup_docker; exit 1;;
         esac
       done
-      drops_setup_dev_docker 
+      case ${deploy} in
+        prod) drops_setup_docker;;
+        dev) drops_setup_dev_docker;;
+     esac 
     ;;
     backup) drops_db_remove_docker;;
     reset)
@@ -38,7 +41,13 @@ drops_controller(){
     start) docker start drops;;
    
     stop) docker stop drops;;
-  
+   
+    restart)
+       case ${deploy} in
+          prod) docker rm -f drops; drops_setup_docker;;
+          dev) docker rm -f drops; drops_setup_dev_docker;;
+       esac
+       ;;
     rm) 
       shift
       while getopts ":D" option; do

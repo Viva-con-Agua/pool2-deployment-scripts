@@ -3,9 +3,9 @@ webapps_setup_docker(){
   -d vivaconagua/webapps-drops-oauth:${webapps_version} \
    -Dnats.endpoint="nats://172.2.100.2:4222" \
    -Dms.name="WEBAPPS" \
-   -Dms.host="http://localhost/webapps" \
+   -Dms.host="https://vca.informatik.hu-berlin.de/webapps" \
    -Dms.entrypoint="/authenticate/drops" \
-   -Ddrops.url.base="http://localhost/drops" \
+   -Ddrops.url.base="https://vca.informatik.hu-berlin.de/drops" \
    -Ddrops.client_id="webapps" \
    -Ddrops.client_secret="webapps" \
    -Dplay.http.context="/webapps" ;
