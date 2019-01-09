@@ -25,6 +25,7 @@ source ${path}/controller/ripple_controller.sh
 source ${path}/controller/subnet_controller.sh
 source ${path}/controller/arise_controller.sh
 source ${path}/controller/webapps_controller.sh
+source ${path}/controller/backup_controller.sh
 case ${@: -1} in
   webapps) webapps_controller $@;;
   drops) drops_controller $@;;
@@ -36,5 +37,7 @@ case ${@: -1} in
   subnet) subnet_controller $@;;
   nats) nats_controller $@;;
   arise) arise_controller $@;;
+  backup) backup_controller $@;;
+  pool) pool1_controller $@;;
   *) echo "microservice not supported"
 esac

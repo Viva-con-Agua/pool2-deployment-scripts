@@ -14,6 +14,33 @@
          "lable":"signUp",
          "render":true,
          "url":"/arise/#/signup"
+      },
+	  {
+        "lable":"faq",
+        "render":true,
+        "url":"/pool/faq/",
+        "entrys": [
+          {
+            "lable":"generalFAQ",
+            "render":true,
+            "url":"/pool/faq/"
+          },
+          {
+            "lable":"festivalFAQ",
+            "render":true,
+            "url":"/pool/faq/festivals/"
+          },
+          {
+            "lable":"goldeimerFAQ",
+            "render":true,
+            "url":"/pool/faq/goldeimer/"
+          },
+          {
+            "lable":"poolFAQ",
+            "render":true,
+            "url":"/pool/faq/pool/"
+          }
+        ]
       }
    ]
 }

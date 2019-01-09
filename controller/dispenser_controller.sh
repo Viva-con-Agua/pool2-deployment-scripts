@@ -24,6 +24,9 @@ dispenser_controller(){
     pull)
         dispenser_pull_docker $3
     ;;
+    update)
+	dispenser_update_docker
+    ;;
     init)
         dispenser_set_navigation
     ;;

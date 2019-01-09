@@ -1,47 +1,40 @@
 #define url Path
 
 
-## sozmed location
-
-#location /sozmed {
-#   proxy_pass http://sozmed;
-#}
-
-location /arise/ {
-	proxy_pass http://arise;
-	proxy_set_header   X-Real-IP $remote_addr;
-  proxy_set_header   X-Forwarded-Proto $scheme;
-  proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-  proxy_set_header   Host $http_host;
-  proxy_http_version 1.1;
-  proxy_set_header Upgrade $http_upgrade;
-  proxy_set_header Connection "Upgrade";
-  proxy_redirect off;
-}
-
-
-# Drops 
-location /ripple/ {
-	proxy_pass http://ripple;
-	proxy_set_header   X-Real-IP $remote_addr;
-  proxy_set_header   X-Forwarded-Proto $scheme;
-  proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-  proxy_set_header   Host $http_host;
-  #proxy_http_version 1.1;
-  #proxy_set_header Upgrade $http_upgrade;
-  #proxy_set_header Connection "Upgrade";
-  proxy_redirect off;
-}
-
-
-
 # Drops 
 location /drops {
 	proxy_pass http://drops;
 	proxy_set_header   X-Real-IP $remote_addr;
         proxy_set_header   X-Forwarded-Proto $scheme;
         proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_http_version 1.1;
+        proxy_set_header   Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+      proxy_set_header   Host $http_host;
+
+
+}
+
+location /webapps {
+	proxy_pass http://webapps;
+	proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header   Host $http_host;
+
+
+}
+
+
+location /arise/ {
+	proxy_pass http://arise;
+	proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_http_version 1.1;
+        proxy_set_header   Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header   Host $host;
 
 
 }
@@ -97,8 +90,5 @@ location /oauthtest {
 
 #Root
 location / {
-	return 301 /drops/auth/signin;
+	return 301 /arise/#/signin/L3Bvb2wv;
 }
-
-
-

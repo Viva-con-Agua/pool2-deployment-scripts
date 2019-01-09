@@ -30,6 +30,7 @@ arise_controller(){
       done
       arise_setup_docker
     ;;
+   update) arise_update_docker;;
    stop) docker stop arise-docker;;
    rm ) docker rm -f arise-docker;;
    logs) docker logs arise-docker;;

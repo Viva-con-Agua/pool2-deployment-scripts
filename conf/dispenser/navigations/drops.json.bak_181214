@@ -66,13 +66,7 @@
 
             "permission": [{ "role": "supporter" }]
 
-          },
-	  {
-            "lable":"availableCamps",
-	    "render":true,
-	    "url":"/pool/camps/",
-	    "permission": [{ "role": "supporter"}]
-	  }
+          }
 
         ]
 
@@ -156,7 +150,7 @@
 
                 "render":true,
 
-                "url":"/pool/wp-admin/admin.php?page=vca-asm-actions-slot-allocation",
+                "url":"/pool/wp-admin/edit.php?post_type=vca-asm-actions-slot-allocation",
 
                 "permission": [{ "role": "VolunteerManager", "pillars": ["operation"] },{ "role": "employee" },{ "role": "admin" }]
 
@@ -208,7 +202,7 @@
 
                 "render":true,
 
-                "url":"/pool/wp-admin/admin.php?page=vca-asm-network-slot-allocation",
+                "url":"/pool/wp-admin/edit.php?post_type=vca-asm-network-slot-allocation",
 
                 "permission": [{ "role": "employee" },{ "role": "admin" }]
 
@@ -248,7 +242,7 @@
 
                 "render":true,
 
-                "url":"/pool/wp-admin/admin.php?page=vca-asm-goldeimer-slot-allocation",
+                "url":"/pool/wp-admin/edit.php?post_type=vca-asm-goldeimer-slot-allocation",
 
                 "permission": [{ "role": "employee" },{ "role": "admin" }]
 
@@ -276,7 +270,7 @@
 
                 "render":true,
 
-                "url":"/pool/wp-admin/admin.php?page=vca-asm-compose",
+                "url":"/pool/wp-admin/edit.php?page=vca-asm-compose",
 
                 "permission": [{ "role": "VolunteerManager", "pillars": ["operation", "network", "education"] },{ "role": "employee" },{ "role": "admin" }]
 
@@ -288,7 +282,7 @@
 
                 "render":true,
 
-                "url":"/pool/wp-admin/admin.php?page=vca-asm-outbox",
+                "url":"/pool/wp-admin/edit.php?page=vca-asm-outbox",
 
                 "permission": [{ "role": "VolunteerManager", "pillars": ["operation", "network", "education"] },{ "role": "employee" },{ "role": "admin" }]
 
@@ -300,7 +294,7 @@
 
                 "render":true,
 
-                "url":"/pool/wp-admin/admin.php?page=vca-asm-emails",
+                "url":"/pool/wp-admin/edit.php?page=vca-asm-emails",
 
                 "permission": [{ "role": "VolunteerManager", "pillars": ["operation", "network", "education"] },{ "role": "employee" },{ "role": "admin" }]
 
@@ -328,7 +322,7 @@
 
                 "render": true,
 
-                "url": "/pool/wp-admin/admin.php?page=vca-asm-finances",
+                "url": "/pool/wp-admin/edit.php?page=vca-asm-finances",
 
                 "permission": [{ "role": "VolunteerManager", "pillars": ["finance"] },{ "role": "employee" },{ "role": "admin" }]
 
@@ -340,7 +334,7 @@
 
                 "render": true,
 
-                "url": "/pool/wp-admin/admin.php?page=vca-asm-finances-accounts-donations",
+                "url": "/pool/wp-admin/edit.php?page=vca-asm-finances-accounts-donations",
 
                 "permission": [{ "role": "VolunteerManager", "pillars": ["finance"] },{ "role": "employee" },{ "role": "admin" }]
 
@@ -352,7 +346,7 @@
 
                 "render": true,
 
-                "url": "/pool/wp-admin/admin.php?page=vca-asm-finances-accounts-econ",
+                "url": "/pool/wp-admin/edit.php?page=vca-asm-finances-accounts-econ",
 
                 "permission": [{ "role": "VolunteerManager", "pillars": ["finance"] },{ "role": "employee" },{ "role": "admin" }]
 
@@ -364,7 +358,7 @@
 
                 "render": true,
 
-                "url": "/pool/wp-admin/admin.php?page=vca-asm-finances-settings",
+                "url": "/pool/wp-admin/edit.php?page=vca-asm-finances-settings",
 
                 "permission": [{ "role": "employee", "pillars": ["finance"] },{ "role": "admin" }]
 
@@ -512,7 +506,7 @@
 
         "render":true,
 
-        "url":"/pool/rausloggen",
+        "url":"/drops/auth/signout",
 
         "permission": [{ "role": "supporter" }]
 

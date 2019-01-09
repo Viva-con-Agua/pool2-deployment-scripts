@@ -12,3 +12,8 @@ arise_logs_docker(){
   docker logs arise-docker;
 }
 
+arise_update_docker(){
+  docker pull vivaconagua/arise:${arise_version};
+  docker rm -f arise-docker;
+  arise_setup_docker;
+}

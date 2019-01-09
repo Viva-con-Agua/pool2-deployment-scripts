@@ -41,6 +41,8 @@ drops_controller(){
     start) docker start drops;;
    
     stop) docker stop drops;;
+
+    update) drops_update_docker;;
    
     restart)
        case ${deploy} in

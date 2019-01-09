@@ -16,27 +16,29 @@ drops_setup_docker(){
 		-Dconfig.resource=application.conf \
 		-Dplay.evolutions.autoApply=true \
 		-Dplay.http.context="/drops" \
-                -Dwebapp.host="https://vca.informatik.hu-berlin.de" \
+                -Dwebapp.host="https://${hostname}" \
 		-Dlogin.flow.ms.switch=true \
-		-Dlogin.flow.ms.url=https://vca.informatik.hu-berlin.de/pool \
+		-Dlogin.flow.ms.url="https://${hostname}/pool" \
 		-Dmongodb.uri=mongodb://mongo/drops \
 		-Dslick.dbs.default.db.url=jdbc:mysql://mariadb/drops \
 		-Dslick.dbs.default.db.user=drops \
 		-Dslick.dbs.default.db.password=drops \
-		-Dmail.smtp.host=mail:25 \
+		-Dmail.smtp.host=smtp.arfiles.de \
 		-Dplay.mailer.mock=no \
-		-Dplay.mailer.host=mailbox.informatik.hu-berlin.de \
+		-Dplay.mailer.host=smtp.artfiles.de \
 		-Dplay.mailer.user=$smtp_user \
 		-Dplay.mailer.password=$smtp_password \
-		-Dpool1.export=false \
+		-Dpool1.export=true \
+		-Dpool1.base="https://${hostname}/pool/" \
 		-Dnats.ip="nats://${nats_ip}:4222" \
 		-Ddispenser.ip="http://${dispenser_ip}:9000/dispenser/" \
-		-Dpool1.url="https://vca.informatik.hu-berlin.de/pool?loginFnc=usercreate" 
+		-Dpool1.url="https://${hostname}/pool/?api=user&action=create" 
 }
 
 #setup docker for dev system. Without mailer!!!! Mails over pool logs drops
+
 drops_setup_dev_docker(){
-         echo "setup Drops in dev mode";
+	echo "setup Drops in dev mode";
 	docker run --net pool-network --ip $drops_ip -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:${drops_version} \
 		-Dplay.crypto.secret=$drops_secret \
 		-Dplay.evolutions.enabled=true \
@@ -53,7 +55,7 @@ drops_setup_dev_docker(){
 		-Dpool1.export=false \
 		-Dnats.ip="nats://${nats_ip}:4222" \
 		-Ddispenser.ip="http://${dispenser_ip}:9000/dispenser/" \
-		-Dpool1.url="https://vca.informatik.hu-berlin.de/pool?loginFnc=usercreate" 
+		-Dpool1.url="https://vca.informatik.hu-berlin.de/pool/?api=user&action=create"
 }
 
 
@@ -66,6 +68,13 @@ drops_start_docker(){
 drops_remove_docker(){
          echo "remove Drops";
 	docker rm -f drops;
+}
+
+drops_update_docker(){
+	docker pull vivaconagua/drops:${drops_version};
+	docker rm -f drops;
+	drops_setup_docker;
+
 }
 
 # setup drops db docker
