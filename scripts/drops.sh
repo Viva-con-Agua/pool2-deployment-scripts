@@ -9,7 +9,7 @@ source ${path}/conf/setup.conf
 # setup the drops docker with
 drops_setup_docker(){
         echo "setup Drops";
-	docker run --net pool-network --ip $drops_ip -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:${drops_version} \
+	docker run --net pool-network --ip $drops_ip -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail  --link drops-mariadb:mariadb -d vivaconagua/drops:${drops_version} \
 		-Dplay.crypto.secret=$drops_secret \
 		-Dplay.evolutions.enabled=true \
 		-Dplay.evolutions.db.default.autoApply=true \
@@ -19,7 +19,6 @@ drops_setup_docker(){
                 -Dwebapp.host="https://${hostname}" \
 		-Dlogin.flow.ms.switch=true \
 		-Dlogin.flow.ms.url="https://${hostname}/pool" \
-		-Dmongodb.uri=mongodb://mongo/drops \
 		-Dslick.dbs.default.db.url=jdbc:mysql://mariadb/drops \
 		-Dslick.dbs.default.db.user=drops \
 		-Dslick.dbs.default.db.password=drops \
@@ -39,7 +38,7 @@ drops_setup_docker(){
 
 drops_setup_dev_docker(){
 	echo "setup Drops in dev mode";
-	docker run --net pool-network --ip $drops_ip -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mongo:mongo --link drops-mariadb:mariadb -d vivaconagua/drops:${drops_version} \
+	docker run --net pool-network --ip $drops_ip -h drops.vca --name drops --restart=unless-stopped --link mail-docker:mail --link drops-mariadb:mariadb -d vivaconagua/drops:${drops_version} \
 		-Dplay.crypto.secret=$drops_secret \
 		-Dplay.evolutions.enabled=true \
 		-Dplay.evolutions.db.default.autoApply=true \
@@ -48,7 +47,6 @@ drops_setup_dev_docker(){
 		-Dplay.http.context="/drops" \
 		-Dlogin.flow.ms.switch=false \
 		-Dlogin.flow.ms.url=https://vca.informatik.hu-berlin.de/pool \
-		-Dmongodb.uri=mongodb://mongo/drops \
 		-Dslick.dbs.default.db.url=jdbc:mysql://mariadb/drops \
 		-Dslick.dbs.default.db.user=drops \
 		-Dslick.dbs.default.db.password=drops \
@@ -80,7 +78,6 @@ drops_update_docker(){
 # setup drops db docker
 drops_db_setup_docker(){
         echo "setup Drops database";
-	docker run --net pool-network --ip $drops_db_mongo_ip --name drops-mongo --restart=unless-stopped -d mongo;
 	docker run --net pool-network --ip $drops_db_maria_ip --name drops-mariadb --restart=unless-stopped \
 		-e MYSQL_ROOT_PASSWORD=drops \
 	    	-e MYSQL_DATABASE=drops \
@@ -94,12 +91,10 @@ drops_db_setup_docker(){
 drops_db_stop_docker(){
          echo "stop Drops database";
 	docker stop drops-mariadb
-	docker stop drops-mongo
 }
 
 drops_db_start_docker(){
          echo "start Drops database";
-	docker start drops-mongo;
 	docker start drops-mariadb;	
 }
 
