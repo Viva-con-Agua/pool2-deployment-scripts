@@ -28,6 +28,10 @@ upstream pool {
 	server 172.2.0.10:80;
 }
 
+upstream wiki {
+	server 172.2.0.15:80;
+}
+
 #arise
 upstream arise {
          server 172.2.50.1:80;
