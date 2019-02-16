@@ -22,6 +22,7 @@ nginx_controller(){
         case ${deploy} in
          prod) nginx_run_docker;;
          dev) nginx_run_dev_docker;;
+         stage) nginx_run_stage_docker;;
         esac
       ;;
       start) docker start nginx-docker;;
@@ -31,6 +32,7 @@ nginx_controller(){
         case ${deploy} in 
            prod) docker rm -f nginx-docker; nginx_run_docker;;
            dev) docker rm -f nginx-docker; nginx_run_dev_docker;;
+           stage) docker rm -f nginx-docker; nginx_run_stage_docker;;
         esac
         ;;
       logs) docker logs nginx-docker;;

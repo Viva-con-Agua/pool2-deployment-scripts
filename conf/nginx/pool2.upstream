@@ -1,3 +1,11 @@
+#Stream-Frontend
+upstream stream {
+   server 172.2.50.3:80;
+}
+#VcA Wiki
+upstream wiki {
+         server 172.2.0.15:80;
+}
 
 #Drops
 upstream drops {

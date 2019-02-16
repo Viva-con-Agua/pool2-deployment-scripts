@@ -1,7 +1,6 @@
 #!/bin/bash
 
-path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
-confPath=$"${path}/../conf/backup"
+confPath=$"${path}/conf/backup"
 
 setup_pool1_backup(){
 	docker run  --net pool-network --ip $pool1_backup_ip --name pool1-backup --restart=unless-stopped -d -v ${path}/../../backup/pool1:/db --env-file ${confPath}/pool1-backup.env  \

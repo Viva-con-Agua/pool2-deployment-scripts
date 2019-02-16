@@ -26,6 +26,7 @@ source ${path}/controller/subnet_controller.sh
 source ${path}/controller/arise_controller.sh
 source ${path}/controller/webapps_controller.sh
 source ${path}/controller/backup_controller.sh
+source ${path}/controller/stream_frontend_controller.sh
 case ${@: -1} in
   webapps) webapps_controller $@;;
   drops) drops_controller $@;;
@@ -39,5 +40,6 @@ case ${@: -1} in
   arise) arise_controller $@;;
   backup) backup_controller $@;;
   pool) pool1_controller $@;;
+  stream-frontend) stream_frontend_controller $@;;
   *) echo "microservice not supported"
 esac
