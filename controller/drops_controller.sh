@@ -45,6 +45,12 @@ drops_controller(){
     update) drops_update_docker;;
    
     restart)
+      shift
+      while getopts ":D" option; do
+        case ${option} in
+          D) drops_restart_database; exit 0;;
+        esac
+      done
        case ${deploy} in
           prod) docker rm -f drops; drops_setup_docker;;
           dev) docker rm -f drops; drops_setup_dev_docker;;
@@ -54,7 +60,7 @@ drops_controller(){
       shift
       while getopts ":D" option; do
         case ${option} in
-          D) docker rm -f drops-mongo; docker rm -f drops-mariadb; exit 1;;
+          D) drops_db_remove_docker; exit 1;;
         esac
       done 
       drops_remove_docker

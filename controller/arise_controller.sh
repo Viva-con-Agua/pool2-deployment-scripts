@@ -22,18 +22,18 @@ arise_controller(){
       while getopts ":dpv" option; do
         case ${option} in
           v) arise_version=${OPTARG};;
-          d) arise_setup_docker
+          d) arise_run
              exit 1;;
-          p) arise_setup_docker
+          p) arise_run
              exit 1;;
         esac
       done
       arise_setup_docker
     ;;
-   update) arise_update_docker;;
+   update) arise_update;;
    stop) docker stop arise-docker;;
-   rm ) docker rm -f arise-docker;;
-   logs) docker logs arise-docker;;
+   rm ) arise_remove;;
+   logs) arise_logs;;
    exec) docker exec -it arise-docker bash ;;
    *) arise_usage
   esac

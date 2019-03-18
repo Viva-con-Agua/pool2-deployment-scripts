@@ -1,5 +1,4 @@
 #!/bin/bash
-#path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 confPathDrops=$"${path}/conf/drops"
 
 source ${path}/pool2.conf
@@ -16,7 +15,7 @@ drops_setup_docker(){
 		-Dconfig.resource=application.conf \
 		-Dplay.evolutions.autoApply=true \
 		-Dplay.http.context="/drops" \
-                -Dwebapp.host="https://${hostname}" \
+    -Dwebapp.host="https://${hostname}" \
 		-Dlogin.flow.ms.switch=true \
 		-Dlogin.flow.ms.url="https://${hostname}/pool" \
 		-Dslick.dbs.default.db.url=jdbc:mysql://mariadb/drops \
@@ -88,6 +87,11 @@ drops_db_setup_docker(){
 
 }
 
+drops_restart_database(){
+  drops_db_remove_docker
+  drops_db_setup_docker
+}
+
 drops_db_stop_docker(){
          echo "stop Drops database";
 	docker stop drops-mariadb
@@ -99,11 +103,7 @@ drops_db_start_docker(){
 }
 
 drops_db_remove_docker(){
-	cdate=$"date +%Y-%m-%d-%H-%M"
-	docker exec -it drops-mongo mongodump --db drops &
-	wait &!
-	docker cp drops-mongo:/dump/ /home/pool/
-	gzip /home/pool/backup/drops /home/pool/backup/drops_mongo_${cdate}.gzip
+  docker rm -f drops-mariadb
 }
 
 drops_pull_docker(){

@@ -1,19 +1,19 @@
 #!/bin/bash
 
-arise_setup_docker(){
+arise_run(){
   docker run --net pool-network --ip $arise_ip --name arise-docker --restart=unless-stopped -d vivaconagua/arise:${arise_version};
 }
 
-arise_remove_docker(){
+arise_remove(){
   docker rm -f arise-docker;
 }
 
-arise_logs_docker(){
+arise_logs(){
   docker logs arise-docker;
 }
 
-arise_update_docker(){
+arise_update(){
   docker pull vivaconagua/arise:${arise_version};
   docker rm -f arise-docker;
-  arise_setup_docker;
+  arise_run;
 }

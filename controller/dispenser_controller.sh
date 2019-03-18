@@ -7,10 +7,18 @@
 ############################
 source ${path}/scripts/dispenser.sh
 
+
 dispenser_controller(){
   case $1 in
-    run)	
-        dispenser_run_docker $dispenser_version
+    run)
+      shift
+      while getopts ":vD" option; do
+        case ${option} in
+          v) drops_version=${OPTARG};;
+          D) dispenser_run_database; exit 0;;
+        esac
+      done 
+      dispenser_run_docker $dispenser_version
     ;;
     start)
         docker start dispenser
@@ -19,28 +27,25 @@ dispenser_controller(){
         docker stop dispenser
     ;;
     rm)	
-        dispenser_rm_docker
+      shift
+      while getopts ":D" option; do
+        case ${option} in
+          D) dispenser_remove_database; exit 0;;
+        esac
+      done
+     dispenser_remove
     ;;
     pull)
-        dispenser_pull_docker $3
+        dispenser_pull $3
     ;;
     update)
-	dispenser_update_docker
+	    dispenser_update
     ;;
     init)
         dispenser_set_navigation
     ;;
-    db)
-        case $3 in 
-            run)
-               dispenser_setup_database
-            ;;
-            rm)
-               dispenser_rm_database
-            ;;
-            *)
-                echo "read doku"
-          esac
-          ;;
+    restart)
+        dispenser_restart
+    ;;
     esac
 }

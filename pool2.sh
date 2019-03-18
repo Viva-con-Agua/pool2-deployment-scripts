@@ -10,6 +10,7 @@ path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 scripts=$"${path}"
 
 source ${path}/conf/setup.conf
+source ${path}/conf/version.conf
 
 #include function for deploy docker
 
@@ -27,6 +28,7 @@ source ${path}/controller/arise_controller.sh
 source ${path}/controller/webapps_controller.sh
 source ${path}/controller/backup_controller.sh
 source ${path}/controller/stream_frontend_controller.sh
+source ${path}/controller/update_controller.sh
 case ${@: -1} in
   webapps) webapps_controller $@;;
   drops) drops_controller $@;;
@@ -41,5 +43,6 @@ case ${@: -1} in
   backup) backup_controller $@;;
   pool) pool1_controller $@;;
   stream-frontend) stream_frontend_controller $@;;
+  update) update_controller $@;;
   *) echo "microservice not supported"
 esac

@@ -4,29 +4,29 @@ confPathDispenser=$"${path}/conf/dispenser"
 
 source ${path}/conf/setup.conf
 
-dispenser_pull_docker(){
+dispenser_pull(){
     echo "pull dispenser";
     docker pull vivaconagua/dispenser:$1;
 }
 
-dispenser_setup_database(){
+dispenser_run_database(){
     echo "setup dispenser database"; 
 	  docker run --net pool-network --ip $dispenser_db_mongo_ip --name dispenser-mongo --restart=unless-stopped -d mongo;
 }
 
-dispenser_rm_database(){
+dispenser_remove_database(){
     echo "remove dispenser database";
     docker stop dispenser-mongo;
 	  docker rm dispenser-mongo;
 }
 
-dispenser_update_docker(){
+dispenser_update(){
 	docker pull vivaconagua/dispenser:${dispenser_version};
-	dispenser_rm_docker;
-	dispenser_run_docker;
+	dispenser_remove;
+  dispenser_run;
 }
 
-dispenser_run_docker(){
+dispenser_run(){
         echo "setup dispesner";
 	docker run --net pool-network --ip $dispenser_ip --name dispenser --restart=unless-stopped --link dispenser-mongo:mongo -v ${confPathDispenser}/application.conf:/opt/docker/conf/application.conf -d vivaconagua/dispenser:${dispenser_version} \
 		-Dconfig.resource=application.conf \
@@ -43,9 +43,6 @@ dispenser_run_docker(){
    -Dplay.http.context="/dispenser"; 
 }
 
-dispenser_check_online(){
-      ping -c1 $dispenser_ip > /dev/null && echo "true" || echo "false";
-}
 
 dispenser_set_navigation(){
          echo "set Navigation";
@@ -54,12 +51,24 @@ dispenser_set_navigation(){
 }
 
 
+dispenser_restart(){
+  echo "restart dispenser"
+  remove=$(docker rm -f dispenser)
+  case $remove in
+    dispenser)
+      echo "dispenser successfull removed";
+      dispenser_run && echo "dispenser successful restarted" || echo "ERROR: dispenser can't start again. Try pool run dispenser to start the service";
+    ;;
+    *) echo "ERROR: dispenser is maybe not running. Try pool run dispenser"
+  esac
+}
 
-dispenser_rm_docker(){
+dispenser_remove(){
          echo "remove dispenser";
 	docker rm -f dispenser;
 }
-dispenser_clean_up(){
+
+dispenser_clean(){
    docker stop dispenser-mongo;
    docker stop dispenser;
    docker rm dispenser-mongo;
