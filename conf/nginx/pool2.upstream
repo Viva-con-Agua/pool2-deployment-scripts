@@ -40,7 +40,7 @@ upstream pool {
 #arise
 upstream arise {
          server 127.2.0.1:8080;
-#         server 172.2.50.1:80;
+         server 172.2.50.1:80;
 }
 
 

@@ -43,7 +43,7 @@ nginx_run_dev_docker(){
          echo "setup Nginx in dev mode"
       docker run --net host --name nginx-docker --restart=unless-stopped -p 80:80 \
                -v ${confPathNginx}/default_dev.conf:/etc/nginx/conf.d/default.conf \
-               -v ${confPathNginx}/pool2.location:/etc/nginx/conf.d/pool2.location \
+               -v ${confPathNginx}/pool2_dev.location:/etc/nginx/conf.d/pool2.location \
                -v ${confPathNginx}/pool2.upstream:/etc/nginx/conf.d/pool2.upstream \
                -d nginx:1.12.1 'nginx-debug' '-g' 'daemon off;';
 }
