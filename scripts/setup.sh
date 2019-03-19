@@ -26,11 +26,11 @@ setup_folder(){
 setup_database(){
 	# Drops Databases
         drops_db_setup_docker;
-        dispenser_setup_database;        
+        dispenser_setup;        
 }
 
 setup_dev_ms(){
-      dispenser_run_docker;
+      dispenser_run;
       dispenser_set_navigation;
       setup_nats_docker;
       drops_setup_dev_docker;
