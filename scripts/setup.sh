@@ -2,6 +2,7 @@
 scripts=$"${path}"
 
 source ${path}/conf/setup.conf
+source ${path}/scripts/subnet.sh
 
 setup_folder(){
   #create cert folder
