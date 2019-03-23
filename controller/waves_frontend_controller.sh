@@ -2,39 +2,39 @@
 
 ########################
 #                      #
-# controller for arise #
+# controller for waves_frontend #
 #                      #
 ########################
 #path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
-source ${path}/scripts/arise.sh
+source ${path}/scripts/waves-frontend.sh
 
-arise_usage() {
+waves_frontend_usage() {
   echo "run: [-v <arg>]" 1>&2;
   echo "run: [-p <arg>]" 1>&2;
   echo "run: [-d <arg>]" 1>&2; 
   exit;
 }
 
-arise_controller(){
+waves_frontend_controller(){
   case $1 in 
     run)
       shift
       while getopts ":dpv" option; do
         case ${option} in
-          v) arise_version=${OPTARG};;
-          d) arise_run
+          v) waves_frontend_version=${OPTARG};;
+          d) waves_frontend_run
              exit 1;;
-          p) arise_run
+          p) waves_frontend_run
              exit 1;;
         esac
       done
-      arise_run
+      waves_frontend_run
     ;;
-   update) arise_update;;
-   stop) docker stop arise-docker;;
-   rm ) arise_remove;;
-   logs) arise_logs;;
+   update) waves_frontend_update;;
+   stop) docker stop waves.frontend;;
+   rm ) waves_frontend_remove;;
+   logs) waves_frontend_logs;;
    exec) docker exec -it arise-docker bash ;;
-   *) arise_usage
+   *) waves_frontend_usage
   esac
 }

@@ -18,7 +18,7 @@ dispenser_controller(){
           D) dispenser_run_database; exit 0;;
         esac
       done 
-      dispenser_run_docker $dispenser_version
+      dispenser_run $dispenser_version
     ;;
     start)
         docker start dispenser

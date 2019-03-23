@@ -29,6 +29,8 @@ source ${path}/controller/webapps_controller.sh
 source ${path}/controller/backup_controller.sh
 source ${path}/controller/stream_frontend_controller.sh
 source ${path}/controller/update_controller.sh
+source ${path}/controller/waves_frontend_controller.sh
+
 case ${@: -1} in
   webapps) webapps_controller $@;;
   drops) drops_controller $@;;
@@ -44,5 +46,6 @@ case ${@: -1} in
   pool) pool1_controller $@;;
   stream-frontend) stream_frontend_controller $@;;
   update) update_controller $@;;
+  waves-frontend) waves_frontend_controller $@;;
   *) echo "microservice not supported"
 esac

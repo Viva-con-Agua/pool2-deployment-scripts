@@ -6,7 +6,7 @@ arise_version=0.8.40-dev
 drops_version=0.36.59
 dispenser_version=0.4.14
 bloob_version=0.0.1
-nats_version=1.0.6
+nats_version=1.4.1
 webapps_version=1.0.0
 stream_frontend_version=0.1.0
 

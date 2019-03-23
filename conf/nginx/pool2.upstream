@@ -55,3 +55,20 @@ upstream oauthtest {
 	server 172.2.100.3:9000;
 }
 
+#stream
+upstream stream-frontend {
+  server 172.2.50.7:8080;
+}
+upstream stream-backend {
+  server 172.2.0.7:9000;
+}
+
+#waves
+upstream waves-frontend {
+  server 172.2.50.6:80;
+}
+upstream waves-backend {
+  server 172.2.0.6:9000;
+}
+
+
