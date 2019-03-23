@@ -14,7 +14,7 @@ source ${path}/conf/setup.conf
 
 setup_nats_docker(){	
         echo "setup Nats";
-	docker run --net pool-network --ip $nats_ip -d --restart=unless-stopped -p 5000:6222 --name pool-nats nats:${nats_version};
+	docker run --net pool-network --ip $nats_ip -d --restart=unless-stopped  --name pool-nats nats:${nats_version};
 }	
 
 
