@@ -2,7 +2,10 @@
 
 emoto_setup_docker(){  
   #Add EMOTO MariaDB
-  docker run --name emoto-docker --restart=unless-stopped -d vivaconagua/emoto:latest;
+  docker run --net pool-network --ip $emoto_backend_ip --name emoto-docker --restart=unless-stopped -d  \
+    -e NODE_ENV="production" \
+    vivaconagua/emoto:$emoto_version;
+
 }
 
 emoto_remove_docker(){
@@ -25,7 +28,15 @@ emoto_release(){
 
 ## ToDo: Add DB Scripts
 emoto_db_setup_docker (){
-  echo "not implemented"
+   	docker run --net pool-network --ip $emoto_db_ip --name emoto-mariadb --restart=unless-stopped \
+		-e MYSQL_ROOT_PASSWORD=emoto \
+	    	-e MYSQL_DATABASE=emoto \
+    		-e MYSQL_USER=emoto \
+    		-e MYSQL_PASSWORD=emoto \
+    		-e MYSQL_ROOT_PASSWORD=yes \
+    		-d mariadb:latest;
+
+
 }
 
 emoto_db_remove_docker (){
@@ -40,33 +51,33 @@ emoto_db_update_docker (){
   echo "not implemented"
 }
 
-case $1 in
-  setup) emoto_setup_docker ;;
-  rm) emoto_remove_docker ;;
-  log) emoto_logs_docker ;;
-  update) emoto_update_docker ;;
-  db) case $2 in 
-      setup) emoto_db_setup_docker ;;
-      rm) emoto_db_remove_docker ;;
-      log) emoto_db_logs_docker ;;
-      update) emoto_db_update_docker ;;
-      *)
-        echo "Usage: ./emoto.sh db COMMAND"
-        echo ""
-        echo "Comands:"
-        echo "  setup    setup a local docker container for emoto database"
-        echo "  rm       remove the docker container emoto database"
-        echo "  log      print emoto database log"
-        echo "  update   update the emoto database docker container to the latest verion"
-    esac;;
-  *) 
-    #ToDo: Add db commands
-    echo "Usage: ./emoto.sh COMMAND"
-    echo ""
-    echo "Commands:"
-    echo "  setup    setup a local docker container for emoto"
-    echo "  rm       remove the docker container emoto and emoto-db"
-    echo "  log      print emoto log"
-    echo "  update   update the emoto docker container to the latest verion"
-    echo "  release  make a release of the current emoto state"
-esac
+#case $1 in
+#  setup) emoto_setup_docker ;;
+#  rm) emoto_remove_docker ;;
+#  log) emoto_logs_docker ;;
+#  update) emoto_update_docker ;;
+#  db) case $2 in 
+#      setup) emoto_db_setup_docker ;;
+#      rm) emoto_db_remove_docker ;;
+#      log) emoto_db_logs_docker ;;
+#      update) emoto_db_update_docker ;;
+#      *)
+#        echo "Usage: ./emoto.sh db COMMAND"
+#        echo ""
+#        echo "Comands:"
+#        echo "  setup    setup a local docker container for emoto database"
+#        echo "  rm       remove the docker container emoto database"
+#        echo "  log      print emoto database log"
+#        echo "  update   update the emoto database docker container to the latest verion"
+#    esac;;
+#  *) 
+#    #ToDo: Add db commands
+#    echo "Usage: ./emoto.sh COMMAND"
+#    echo ""
+#    echo "Commands:"
+#    echo "  setup    setup a local docker container for emoto"
+#    echo "  rm       remove the docker container emoto and emoto-db"
+#    echo "  log      print emoto log"
+#    echo "  update   update the emoto docker container to the latest verion"
+#    echo "  release  make a release of the current emoto state"
+#esac

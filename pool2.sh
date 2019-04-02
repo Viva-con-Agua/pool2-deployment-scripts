@@ -30,6 +30,7 @@ source ${path}/controller/backup_controller.sh
 source ${path}/controller/stream_frontend_controller.sh
 source ${path}/controller/update_controller.sh
 source ${path}/controller/waves_frontend_controller.sh
+source ${path}/controller/emoto_controller.sh
 
 case ${@: -1} in
   webapps) webapps_controller $@;;
@@ -47,5 +48,7 @@ case ${@: -1} in
   stream-frontend) stream_frontend_controller $@;;
   update) update_controller $@;;
   waves-frontend) waves_frontend_controller $@;;
+  emoto) emoto_backend_controller $@;;
+  emoto-frontend) emoto_frontend_controller $@;;
   *) echo "microservice not supported"
 esac

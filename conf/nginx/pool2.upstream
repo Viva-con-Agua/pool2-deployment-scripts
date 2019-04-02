@@ -1,3 +1,12 @@
+
+upstream emoto-frontend {
+  server 172.2.50.4:80;
+}
+
+upstream emoto-backend {
+  server 172.2.0.7:3000;
+}
+
 #Stream-Frontend
 upstream stream {
    server 172.2.50.3:80;

@@ -32,6 +32,7 @@ arise_controller(){
     ;;
    update) arise_update;;
    stop) docker stop arise-docker;;
+   restart) arise_restart;;
    rm ) arise_remove;;
    logs) arise_logs;;
    exec) docker exec -it arise-docker bash ;;

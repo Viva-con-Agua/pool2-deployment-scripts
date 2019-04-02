@@ -7,7 +7,7 @@ webapps_setup_docker(){
    -Dms.entrypoint="/authenticate/drops" \
    -Ddrops.url.base="https://${hostname}/drops" \
    -Ddrops.client_id="webapps" \
-   -Ddrops.client_secret=$drops_secret \
+   -Ddrops.client_secret="webapps" \
    -Dplay.http.context="/webapps" ;
 
 }
