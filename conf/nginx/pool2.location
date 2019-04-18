@@ -1,6 +1,35 @@
 #define url Path
 
 
+
+  location /emotobackend {
+    proxy_pass http://emoto-backend;
+    proxy_set_header   X-Real-IP $remote_addr;
+    proxy_set_header   X-Forwarded-Proto $scheme;
+    proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_http_version 1.1;
+    proxy_set_header   Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header   Host $host;
+    }
+
+
+location /emoto {
+	return 301 /emoto/;
+}
+
+location /emoto/ {
+   proxy_pass http://emoto-frontend;
+   proxy_set_header   X-Real-IP $remote_addr;
+   proxy_set_header   X-Forwarded-Proto $scheme;
+   proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+   proxy_http_version 1.1;
+   proxy_set_header   Upgrade $http_upgrade;
+   proxy_set_header Connection "upgrade";
+   proxy_set_header   Host $host;
+}
+
+
 #Stream-Frontend
 location /stream/ {
    proxy_pass http://stream;
@@ -89,11 +118,6 @@ location /assets {
 
 }
 
-#location /test {
-#        default_type "text/html";
-#        try_files $uri $uri/ /test.html;
-#}
-
 # Pool^1 
 location /pool {
 	#rewrite /pool(.*) /$1 break;
@@ -110,7 +134,49 @@ location /oauthtest {
 	proxy_pass http://oauthtest;
 }
 
+###################
+# Atlassian Suite #
+###################
+
+# Confluence
+location /confluence {
+        proxy_pass http://confluence;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   Host $http_host;
+	proxy_connect_timeout       600;
+	proxy_send_timeout          600;
+	proxy_read_timeout          600;
+	send_timeout                600;
+}
+
+# Jira
+location /jira {
+        proxy_pass http://jira;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   Host $http_host;
+
+}
+
+# Bitbucket
+location /bitbucket {
+        proxy_pass http://bitbucket;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   Host $http_host;
+
+}
+
+####################
+# Default Redirect #
+####################
+
 #Root
 location / {
 	return 301 /arise/#/signin/L3Bvb2wv;
 }
+

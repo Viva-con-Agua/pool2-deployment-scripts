@@ -24,7 +24,7 @@ drops_setup_docker(){
 		-Dslick.dbs.default.db.password=drops \
 		-Dmail.smtp.host=smtp.arfiles.de \
 		-Dplay.mailer.mock=no \
-		-Dplay.mailer.host=smtp.artfiles.de \
+		-Dplay.mailer.host=mailbox.informatik.hu-berlin.de \
 		-Dplay.mailer.user=$smtp_user \
 		-Dplay.mailer.password=$smtp_password \
 		-Dpool1.export=true \

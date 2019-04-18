@@ -86,7 +86,7 @@
 
         "url":"/arise/#/users",
 
-        "permission": [{ "role": "VolunteerManager" },{ "role": "employee" },{ "role": "admin" }],
+        "permission": [{ "role": "supporter" }],
 
         "entrys": [
 
@@ -318,7 +318,7 @@
 
             "url": "/wp-admin/admin.php?page=vca-asm-emails",
 
-            "permission": [{ "role": "VolunteerManager", "pillars": ["finance"] },{ "role": "employee" },{ "role": "admin" }],
+            "permission": [{ "role": "supporter"}],
 
             "entrys": [
 
@@ -331,7 +331,6 @@
                 "url": "/pool/wp-admin/admin.php?page=vca-asm-finances",
 
                 "permission": [{ "role": "VolunteerManager", "pillars": ["finance"] },{ "role": "employee" },{ "role": "admin" }]
-
               },
 
               {
@@ -340,9 +339,9 @@
 
                 "render": true,
 
-                "url": "/pool/wp-admin/admin.php?page=vca-asm-finances-accounts-donations",
+                "url": "/stream/#/donations",
 
-                "permission": [{ "role": "VolunteerManager", "pillars": ["finance"] },{ "role": "employee" },{ "role": "admin" }]
+                "permission": [{ "role": "supporter" }]
 
               },
 
@@ -352,9 +351,9 @@
 
                 "render": true,
 
-                "url": "/pool/wp-admin/admin.php?page=vca-asm-finances-accounts-econ",
+                "url": "/stream/#/household",
 
-                "permission": [{ "role": "VolunteerManager", "pillars": ["finance"] },{ "role": "employee" },{ "role": "admin" }]
+                "permission": [{ "role": "supporter"}]
 
               },
 
@@ -505,7 +504,6 @@
         ]
 
       },
-
       {
 
         "lable":"signOut",
