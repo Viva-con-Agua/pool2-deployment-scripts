@@ -1,17 +1,46 @@
-upstream emoto-frontend {
-  server 172.2.50.4:80;
-}
+###########
+# Backend #
+###########
 
 upstream emoto-backend {
   server 172.2.0.7:3000;
 }
 
+upstream stream-backend {
+   server 172.2.0.8:9000;
+}
+
+upstream bloob-backend {
+   server 172.2.0.12:9000;
+}
+
+############
+# Frontend #
+############
+
+#Emoto-Frontend
+upstream emoto-frontend {
+  server 172.2.50.4:80;
+}
 
 #Stream-Frontend
-upstream stream {
+upstream stream-frontend {
    server 172.2.50.3:80;
 }
-#VcA Wiki
+
+#Waves-Frontend
+upstream waves-frontend {
+   server 172.2.50.2:80;
+}
+
+#Bloob-Frontend
+upstream bloob-frontend {
+        server 172.2.0.5:9000;
+}
+
+############
+# VcA Wiki #
+############
 upstream wiki {
          server 172.2.0.15:80;
 }
@@ -62,7 +91,9 @@ upstream oauthtest {
 	server 172.2.100.3:9000;
 }
 
-# Atlassian Suite
+###################
+# Atlassian Suite #
+###################
 
 #confluence
 upstream confluence {
