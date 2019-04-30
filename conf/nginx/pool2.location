@@ -1,9 +1,82 @@
-#define url Path
+########################
+# Pool² Nginx Location #
+# Stage 2019_04_26     #
+########################
 
 
-#Stream-Frontend
-location /stream/ {
-   proxy_pass http://stream;
+###########
+# Backend #
+###########
+
+location ^~ /backend {
+   #Bloob backend
+   location /backend/bloob {
+      proxy_pass http://bloob-backend;
+      proxy_set_header   X-Real-IP $remote_addr;
+      proxy_set_header   X-Forwarded-Proto $scheme;
+      proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_http_version 1.1;
+      proxy_set_header   Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+      proxy_set_header   Host $host;
+  }
+   #Stream backend
+   location /backend/stream {
+      proxy_pass http://stream-backend;
+      proxy_set_header   X-Real-IP $remote_addr;
+      proxy_set_header   X-Forwarded-Proto $scheme;
+      proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_http_version 1.1;
+      proxy_set_header   Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+      proxy_set_header   Host $host;
+   }
+}
+
+# Drops -- Arise backend 
+location /drops {
+   proxy_pass http://drops;
+   proxy_set_header   X-Real-IP $remote_addr;
+   proxy_set_header   X-Forwarded-Proto $scheme;
+   proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+   proxy_http_version 1.1;
+   proxy_set_header   Upgrade $http_upgrade;
+   proxy_set_header Connection "upgrade";
+   proxy_set_header   Host $http_host;
+}
+
+# Emoto backend
+location /emotobackend {
+    proxy_pass http://emoto-backend;
+    proxy_set_header   X-Real-IP $remote_addr;
+    proxy_set_header   X-Forwarded-Proto $scheme;
+    proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_http_version 1.1;
+    proxy_set_header   Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header   Host $host;
+}
+
+#Webapps service for SAP
+location /webapps {
+   proxy_pass http://webapps;
+   proxy_set_header   X-Real-IP $remote_addr;
+   proxy_set_header   X-Forwarded-Proto $scheme;
+   proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+   proxy_set_header   Host $http_host;
+}
+
+############
+# Frontend #
+############
+
+#Emoto frontend
+location /emoto {
+   return 301 /emoto/;
+}
+
+location /emoto/ {
+   proxy_pass http://emoto-frontend;
    proxy_set_header   X-Real-IP $remote_addr;
    proxy_set_header   X-Forwarded-Proto $scheme;
    proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -13,7 +86,75 @@ location /stream/ {
    proxy_set_header   Host $host;
 }
 
-# Wiki
+# Stream frontend
+location /stream {
+   return 301 /stream/;
+}
+
+location /stream/ {
+   proxy_pass http://stream-frontend;
+   proxy_set_header   X-Real-IP $remote_addr;
+   proxy_set_header   X-Forwarded-Proto $scheme;
+   proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+   proxy_http_version 1.1;
+   proxy_set_header   Upgrade $http_upgrade;
+   proxy_set_header Connection "upgrade";
+   proxy_set_header   Host $host;
+}
+
+# Arise frontend
+location /arise {
+   return 301 /arise/;
+}
+ 
+location /arise/ {
+   proxy_pass http://arise;
+   proxy_set_header   X-Real-IP $remote_addr;
+   proxy_set_header   X-Forwarded-Proto $scheme;
+   proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+   proxy_http_version 1.1;
+   proxy_set_header   Upgrade $http_upgrade;
+   proxy_set_header Connection "upgrade";
+   proxy_set_header   Host $host;
+}
+# Bloob frontend
+
+location /bloob {
+   return 301 /bloob/;
+}
+ 
+location /bloob/ {
+   proxy_pass http://bloob-frontend;
+   proxy_set_header   X-Real-IP $remote_addr;
+   proxy_set_header   X-Forwarded-Proto $scheme;
+   proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+   proxy_http_version 1.1;
+   proxy_set_header   Upgrade $http_upgrade;
+   proxy_set_header Connection "upgrade";
+   proxy_set_header   Host $host;
+}
+
+# Waves frontend
+location /waves {
+   return 301 /waves/;
+}
+ 
+location /waves/ {
+   proxy_pass http://waves-frontend;
+   proxy_set_header   X-Real-IP $remote_addr;
+   proxy_set_header   X-Forwarded-Proto $scheme;
+   proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+   proxy_http_version 1.1;
+   proxy_set_header   Upgrade $http_upgrade;
+   proxy_set_header Connection "upgrade";
+   proxy_set_header   Host $host;
+}
+
+
+########
+# Wiki #
+########
+
 location /wiki {
         proxy_pass http://wiki;
         proxy_set_header   X-Real-IP $remote_addr;
@@ -22,79 +163,18 @@ location /wiki {
         proxy_set_header   Host $http_host;
 }
 
-
-# Drops 
-location /drops {
-	proxy_pass http://drops;
-	proxy_set_header   X-Real-IP $remote_addr;
-        proxy_set_header   X-Forwarded-Proto $scheme;
-        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-       proxy_http_version 1.1;
-        proxy_set_header   Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-      proxy_set_header   Host $http_host;
-
-
-}
-
-location /webapps {
-	proxy_pass http://webapps;
-	proxy_set_header   X-Real-IP $remote_addr;
-        proxy_set_header   X-Forwarded-Proto $scheme;
-        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header   Host $http_host;
-
-
-}
-
-
-location /arise/ {
-	proxy_pass http://arise;
-	proxy_set_header   X-Real-IP $remote_addr;
-        proxy_set_header   X-Forwarded-Proto $scheme;
-        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_http_version 1.1;
-        proxy_set_header   Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header   Host $host;
-
-
-}
-
-location /bloob {
-	proxy_pass http://bloob;
-	proxy_set_header   X-Real-IP $remote_addr;
-        proxy_set_header   X-Forwarded-Proto $scheme;
-        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header   Host $http_host;
-
-
-}
-
-
-
-#Dispenser
+#############
+# Dispenser #
+# ###########
 location /dispenser {
 	proxy_pass http://dispenser;
     	proxy_set_header   X-Real-IP $remote_addr;
-    	#proxy_set_header   X-Forwarded-Proto $scheme;
-    	#proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
     	proxy_set_header   Host $http_host;	
-	
-}
-# Assets
-
-location /assets {
-        proxy_pass http://dispenserassets;
-
 }
 
-#location /test {
-#        default_type "text/html";
-#        try_files $uri $uri/ /test.html;
-#}
-
-# Pool^1 
+##########
+# Pool^1 #
+########## 
 location /pool {
 	#rewrite /pool(.*) /$1 break;
        	#rewrite /pool(.*) https://$server_name/$1 break; 
@@ -105,12 +185,50 @@ location /pool {
     	proxy_set_header   Host $http_host;	
 
 }
-#Oauth Test 
-location /oauthtest {
-	proxy_pass http://oauthtest;
+
+###################
+# Atlassian Suite #
+###################
+
+# Confluence
+location /confluence {
+        proxy_pass http://confluence;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   Host $http_host;
+	proxy_connect_timeout       600;
+	proxy_send_timeout          600;
+	proxy_read_timeout          600;
+	send_timeout                600;
 }
+
+# Jira
+location /jira {
+        proxy_pass http://jira;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   Host $http_host;
+
+}
+
+# Bitbucket
+location /bitbucket {
+        proxy_pass http://bitbucket;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   Host $http_host;
+
+}
+
+####################
+# Default Redirect #
+####################
 
 #Root
 location / {
 	return 301 /arise/#/signin/L3Bvb2wv;
 }
+

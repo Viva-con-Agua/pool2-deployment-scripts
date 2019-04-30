@@ -27,7 +27,9 @@ source ${path}/controller/subnet_controller.sh
 source ${path}/controller/arise_controller.sh
 source ${path}/controller/webapps_controller.sh
 source ${path}/controller/backup_controller.sh
+
 source ${path}/controller/stream_frontend_controller.sh
+source ${path}/controller/stream_backend_controller.sh
 source ${path}/controller/update_controller.sh
 source ${path}/controller/waves_frontend_controller.sh
 source ${path}/controller/emoto_controller.sh
@@ -46,9 +48,12 @@ case ${@: -1} in
   backup) backup_controller $@;;
   pool) pool1_controller $@;;
   stream-frontend) stream_frontend_controller $@;;
+  stream-backend) stream_backend_controller $@;;
   update) update_controller $@;;
   waves-frontend) waves_frontend_controller $@;;
   emoto) emoto_backend_controller $@;;
   emoto-frontend) emoto_frontend_controller $@;;
+
   *) echo "microservice not supported"
+
 esac
