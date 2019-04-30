@@ -59,5 +59,5 @@ Dispenser | 0.1.12 | dispenser | `run` `start` `stop` `rm` `logs`
 ChangeLog
 =========
 
-## Version 0.1.1 (2018-16-06)
+## Version 0.2.1 (2019-30-04)
 
