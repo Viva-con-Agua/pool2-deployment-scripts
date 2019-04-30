@@ -27,15 +27,17 @@ setup_folder(){
 setup_database(){
 	# Drops Databases
         drops_db_setup_docker;
-        dispenser_setup;        
+        dispenser_setup_database_docker;        
 }
 
 setup_dev_ms(){
       dispenser_run;
-      dispenser_set_navigation;
       setup_nats_docker;
       drops_setup_dev_docker;
+      arise_run;
+      webapps_setup_docker;
       nginx_run_dev_docker;
+      dispenser_set_navigation;
 }
 
 setup_pool_dev(){
@@ -57,6 +59,8 @@ setup_control_ms(){
 delete_pool_docker(){
    docker stop drops;
    docker rm drops;
+   docker rm -f arise-docker;
+   docker rm -f webapps-docker;
    docker stop dispenser;
    docker rm dispenser;
    docker stop pool-nats;

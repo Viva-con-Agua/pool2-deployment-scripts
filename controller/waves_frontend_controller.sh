@@ -1,10 +1,10 @@
 #!/bin/bash
 
-########################
-#                      #
+#################################
+#                               #
 # controller for waves_frontend #
-#                      #
-########################
+#                               #
+#################################
 #path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 source ${path}/scripts/waves-frontend.sh
 
@@ -22,19 +22,19 @@ waves_frontend_controller(){
       while getopts ":dpv" option; do
         case ${option} in
           v) waves_frontend_version=${OPTARG};;
-          d) waves_frontend_run
+          d) waves_frontend_setup_docker
              exit 1;;
-          p) waves_frontend_run
+          p) waves_frontend_setup_docker
              exit 1;;
         esac
       done
-      waves_frontend_run
+      waves_frontend_setup_docker
     ;;
-   update) waves_frontend_update;;
-   stop) docker stop waves.frontend;;
-   rm ) waves_frontend_remove;;
-   logs) waves_frontend_logs;;
-   exec) docker exec -it arise-docker bash ;;
+   update) waves_frontend_update_docker;;
+   stop) docker stop waves-frontend-docker;;
+   rm ) docker rm -f waves-frontend-docker;;
+   logs) docker logs waves-frontend-docker;;
+   exec) docker exec -it waves-frontend-docker bash ;;
    *) waves_frontend_usage
   esac
 }

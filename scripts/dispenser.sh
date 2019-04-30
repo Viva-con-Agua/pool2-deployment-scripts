@@ -9,7 +9,7 @@ dispenser_pull(){
     docker pull vivaconagua/dispenser:$1;
 }
 
-dispenser_run_database(){
+dispenser_setup_database_docker(){
     echo "setup dispenser database"; 
 	  docker run --net pool-network --ip $dispenser_db_mongo_ip --name dispenser-mongo --restart=unless-stopped -d mongo;
 }
@@ -45,9 +45,16 @@ dispenser_run(){
 
 
 dispenser_set_navigation(){
+      while ! nc -z $dispenser_ip 9000 ; do
+         sleep 1;
+      done;
+      if nc -z $dispenser_ip 9000; then
          echo "set Navigation";
          docker cp ${confPathDispenser}/navigations/. dispenser:/opt/docker/conf/navigation/jsons/;
          curl -X GET http://${dispenser_ip}:9000/dispenser/navigation/init;
+      else
+         dispenser_set_navigation
+  fi;
 }
 
 

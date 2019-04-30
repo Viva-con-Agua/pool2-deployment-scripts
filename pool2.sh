@@ -2,7 +2,7 @@
 
 ########################################
 #                                      #
-# setup script for Pool² Version 0.1.1 #
+# setup script for Pool² Version 0.2.1 #
 #                                      #
 ########################################
 
