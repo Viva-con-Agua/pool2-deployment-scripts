@@ -21,6 +21,14 @@ alias pool='bash /path/to/poo2.sh'
 
 Since the Pool2 is based on a Docker architecture, the docker.service must be installed and started on the system. [A solution for Debian](https://docs.docker.com/engine/installation/linux/docker-ce/debian/)
 
+Setup Pool²
+===========
+
+The Scripts can handle a basic setup for development requirements. You can run `pool dev setup` for the basic docker setup.
+If you need to clean it run `pool clean setup` or `pool cleanfull setup`. Be aware that `cleanfull` will delete all your databases, `clean` don't.
+
+
+
 Handling
 ========
 
