@@ -1,19 +1,16 @@
 
 
-
-
-
 stream_backend_setup_docker(){
   docker run --net pool-network --ip $stream_backend_ip --name stream-backend-docker --restart=unless-stopped \
   -d vivaconagua/stream-backend:${stream_backend_version} \
    -Dnats.endpoint="nats://172.2.100.2:4222" \
-   -Dms.name="WEBAPPS" \
-   -Dms.host="https://${hostname}/webapps" \
+   -Dms.name="STREAM" \
+   -Dms.host="https://${hostname}/backend/stream" \
    -Dms.entrypoint="/authenticate/drops" \
    -Ddrops.url.base="https://${hostname}/drops" \
-   -Ddrops.client_id="webapps" \
-   -Ddrops.client_secret=$drops_secret \
-   -Dplay.http.context="/webapps" ;
+   -Ddrops.client_id="stream" \
+   -Ddrops.client_secret=$stream_backend_secret \
+   -Dplay.http.context="/backend/stream" ;
 
 }
 
