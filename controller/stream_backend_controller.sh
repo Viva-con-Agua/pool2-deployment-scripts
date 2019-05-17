@@ -35,6 +35,13 @@ stream_backend_controller(){
    rm ) docker rm -f stream-backend-docker;;
    logs) docker logs stream-backend-docker;;
    exec) docker exec -it stream-backend-docker bash ;;
+   db) 
+     case $2 in
+       run) stream_database_setup_docker;;
+       rm) stream_database_remove_docker;;
+       *) echo "TODO: Help for Stream"
+     esac 
+     ;; 
    *) stream_backend_usage
   esac
 }

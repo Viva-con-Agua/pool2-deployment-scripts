@@ -28,3 +28,27 @@ stream_backend_update_docker(){
 stream_backend_logs_docker(){
   docker logs stream-backend-docker;
 }
+
+#database for steam
+
+stream_database_setup_docker(){
+  echo "setup Stream-Database";
+  docker run --net pool-network --ip $stream_db_maria_ip --name stream-database --restart=unless-stopped \
+    -e MYSQL_ROOT_PASSWORD=stream \
+	    	-e MYSQL_DATABASE=stream \
+    		-e MYSQL_USER=stream\
+    		-e MYSQL_PASSWORD=stream \
+    		-e MYSQL_ROOT_PASSWORD=yes \
+    		-d mariadb:latest;
+}
+stream_database_backup_docker(){
+  docker run --net pool-network -v ${path}/../backup/stream-database:/db --env-file ${confPath}/stream-database.env deitch/mysql-backup
+}
+
+stream_database_remove_docker(){
+  echo "backup database data"
+  stream_database_backup_docker
+  echo "remove stream-database"
+  docker rm -f stream-database
+}
+
