@@ -3,6 +3,7 @@
 stream_backend_setup_docker(){
   docker run --net pool-network --ip $stream_backend_ip --name stream-backend-docker --restart=unless-stopped \
   -d vivaconagua/stream-backend:${stream_backend_version} \
+	 -Dplay.http.secret.key=${dispenser_secret} \
    -Dnats.endpoint="nats://172.2.100.2:4222" \
    -Dms.name="STREAM" \
    -Dms.host="https://${hostname}/backend/stream" \

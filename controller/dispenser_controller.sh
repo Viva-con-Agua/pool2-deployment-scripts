@@ -15,7 +15,7 @@ dispenser_controller(){
       while getopts ":vD" option; do
         case ${option} in
           v) drops_version=${OPTARG};;
-          D) dispenser_run_database; exit 0;;
+          D) dispenser_setup_database_docker; exit 0;;
         esac
       done 
       dispenser_run $dispenser_version

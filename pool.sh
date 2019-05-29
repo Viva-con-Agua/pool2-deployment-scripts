@@ -2,7 +2,7 @@
 
 ########################################
 #                                      #
-# setup script for Pool² Version 0.1.1 #
+# setup script for Pool² Version 0.2.1 #
 #                                      #
 ########################################
 
@@ -10,263 +10,50 @@ path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 scripts=$"${path}"
 
 source ${path}/conf/setup.conf
+source ${path}/conf/version.conf
 
 #include function for deploy docker
 
-source ${path}/scripts/nginx.sh
-source ${path}/scripts/bloob.sh
-source ${path}/scripts/dispenser.sh
-source ${path}/scripts/nats.sh
+source ${path}/controller/nginx_controller.sh
+source ${path}/controller/bloob_controller.sh
+source ${path}/controller/dispenser_controller.sh
+source ${path}/controller/nats_controller.sh
 source ${path}/scripts/sluice.sh
 source ${path}/scripts/wordpress.sh
-source ${path}/scripts/setup.sh
-source ${path}/scripts/drops.sh
-source ${path}/scripts/subnet.sh
+source ${path}/controller/setup_controller.sh
+source ${path}/controller/drops_controller.sh
+source ${path}/controller/ripple_controller.sh
+source ${path}/controller/subnet_controller.sh
+source ${path}/controller/arise_controller.sh
+source ${path}/controller/webapps_controller.sh
+source ${path}/controller/backup_controller.sh
 
-case $2 in
+source ${path}/controller/stream_frontend_controller.sh
+source ${path}/controller/stream_backend_controller.sh
+source ${path}/controller/update_controller.sh
+source ${path}/controller/waves_frontend_controller.sh
+source ${path}/controller/emoto_controller.sh
 
-# Nginx controlles 
-   nginx)
-      case $1 in
-	        run)
-		          if [ -z "$3" ]; then 
-			            nginx_run_docker $hostname
-		          else
-			            nginx_run_docker $3
-		          fi
-		      ;;
-          dev)
-              nginx_run_dev_docker
-           ;;
-	        start) 
-		          docker start nginx-docker
-		       ;;
-	        stop)
-		          docker stop nginx-docker
-		      ;;
-	        rm) 
-		          docker stop nginx-docker
-		          docker rm nginx-docker
-		      ;;   
-          restart)
-              docker stop nginx-docker
-              docker rm  nginx-docker
-              nginx_run_dev_docker
-          ;;
-	        logs)
-		          docker logs nginx-docker
-		      ;;
-	        *)
-		          echo $"Usage: $0 {run|start|stop|rm}"
-		          exit 1
-          esac
-          ;;
+case ${@: -1} in
+  webapps) webapps_controller $@;;
+  drops) drops_controller $@;;
+  ripple) ripple_controller $@;;
+  nginx) nginx_controller $@;;
+  dispenser) dispenser_controller $@;;
+  bloob) bloob_controller $@;;
+  setup) setup_controller $@;;
+  subnet) subnet_controller $@;;
+  nats) nats_controller $@;;
+  arise) arise_controller $@;;
+  backup) backup_controller $@;;
+  pool) pool1_controller $@;;
+  stream-frontend) stream_frontend_controller $@;;
+  stream-backend) stream_backend_controller $@;;
+  update) update_controller $@;;
+  waves-frontend) waves_frontend_controller $@;;
+  emoto) emoto_backend_controller $@;;
+  emoto-frontend) emoto_frontend_controller $@;;
 
-# Dispenser controlles
-    dispenser)
-        case $1 in
-            run)	
-		            dispenser_run_docker $dispenser_version
-	          ;;
-	          start)
-		            docker start dispenser
-		        ;;
-	          stop) 
-		            docker stop dispenser
-		        ;;
-	          rm)	
-		            dispenser_rm_docker
-		        ;;
-	          pull)
-		            dispenser_pull_docker $3
-		        ;;
-            init)
-                dispenser_set_navigation
-            ;;
-	          db)
-		            case $3 in 
-			              run)
-				                dispenser_setup_database
-			              ;;
-			              rm)
-				                dispenser_rm_database
-			      ;;
-		        *)
-			              echo "read doku"
-		        esac
-		        ;;
-	  *)
-		    echo $"Usage: $0 {run|start|stop|rm|db}"
-    esac
-    ;;
-    sluice)
-    ;;
-    drops)
-        case $1 in
-	          run)	
-	  	          if [ -z "$3" ]; then 
-			              drops_setup_dev_docker $drops_version
-		            else
-			              drops_setup_dev_docker $3
-		            fi
-		        ;;
-            dev)
-                if [ -z "$3" ]; then 
-			              drops_setup_dev_docker $drops_version
-		            else
-			              drops_setup_dev_docker $3
-		            fi
-		        ;;
+  *) echo "microservice not supported"
 
-	          backup)
-		            drops_db_remove_docker
-		        ;;
-	          reset)
-		            drops_remove_docker
-		            if [ -z "$3" ]; then 
-			              drops_setup_docker ${VERSION}
-		            else
-			              drops_setup_docker $3
-		   
-                fi
-		
-           ;;
-	
-           start)
-		          docker start drops
-		       ;;
-	        stop) 
-		        docker stop drops
-		      ;;
-	        rm)
-		drops_remove_docker
-		;;
-	logs)
-		docker logs drops
-		;;
-        pull)
-                if [ -z "$3" ]; then
-                     drops_pull_docker $drops_version
-                else
-                     drops_pull_docker $3
-                fi
-                ;;
-	db)
-		case $3 in
-			run)	
-				drops_db_setup_docker
-				;;
-			start)
-				docker start drops-mongo
-				docker start drops-mariadb
-				;;
-			stop) 
-				docker stop drops-mongo
-				docker stop drops-mariadb
-				;;
-			rm)
-				docker stop drops-mongo
-				docker stop drops-mariadb
-				docker rm drops-mongo
-				docker rm drops-mariadb
-				;;
-			*)
-				echo $"Usage: $0 {run|start|stop|rm}"
-		esac
-		;;
-	*)
-		echo $"Usage: $0 {run|start|stop|rm|db}"
-   esac
-      ;;
-   bloob)
-      case $1 in 
-         run)
-            if [ -z "$3" ]; then
-               bloob_setup_docker $bloob_version
-            else
-               bloob_setup_docker $3
-            fi
-            ;;
-         rm)
-            docker stop bloob
-            docker rm bloob
-            ;;
-         logs)
-            docker logs bloob
-            ;;
-         db)
-            bloob_db_setup
-            ;;
-         *)
-         echo $"Usage: $0 {run|rm|logs}"
-      esac
-      ;;
-   nats)
-      case $1 in 
-	run)
-		setup_nats_docker
-	;;
-	stop)
-		docker stop pool-nats
-	;;
-	rm)
-		docker stop pool-nats
-		docker rm pool-nats
-	;;
-	logs)
-		docker logs pool-nats
-	;;
-	exec)
-		docker exec -it pool-oes bash
-	;;
-	*)
-		echo "ERROR"
-	;;
-      esac
-      ;;
-   pool)
-      case $1 in
-	run)
-		pool1_setup_docker
-		;;
-	rm) 
-		pool1_rm_docker
-		;;
-	db)
-		case $2 in
-			run)
-				pool1_setup_db
-				;;
-			rm)
-				pool1_rm_db
-				;;
-			*)
-			echo "Error"
-	esac
-		;;
-	*)
-		echo "Error"
-      esac
-      ;;
-   setup)
-      case $1 in 
-         dev)
-            setup_pool_dev
-            ;;
-         clean)
-            delete_pool_docker
-         ;;
-         restart)
-            delete_pool_docker
-            setup_pool_dev
-         ;; 
-         cleanfull)
-            delete_pool_docker_full
-         ;;
-      *)
-         echo "error"
-      esac
-     ;; 
-   *)
-      echo "error"
 esac

@@ -3,6 +3,7 @@
 confPathDispenser=$"${path}/conf/dispenser"
 
 source ${path}/conf/setup.conf
+source ${path}/conf/password.conf
 
 dispenser_pull(){
     echo "pull dispenser";
@@ -28,13 +29,12 @@ dispenser_update(){
 
 dispenser_run(){
         echo "setup dispesner";
-	docker run --net pool-network --ip $dispenser_ip --name dispenser --restart=unless-stopped --link dispenser-mongo:mongo -v ${confPathDispenser}/application.conf:/opt/docker/conf/application.conf -d vivaconagua/dispenser:${dispenser_version} \
-		-Dconfig.resource=application.conf \
+	docker run --net pool-network --ip $dispenser_ip --name dispenser --restart=unless-stopped --link dispenser-mongo:mongo  -d vivaconagua/dispenser:${dispenser_version} \
 		-Dplay.http.secret.key=${dispenser_secret} \
 		-Dmongodb.uri=mongodb://mongo/dispenser \
 		-Dconfig.resource=application.conf \
 		-Ddispenser.hostURL=${hostUrl} \
-     		-Dms.name="DISPENSER" \
+     -Dms.name="DISPENSER" \
     -Dms.host="https://${hostname}/dispenser" \
     -Dms.entrypoint="/authenticate/drops" \
     -Ddrops.url.base="https://${hostname}/drops" \
@@ -45,16 +45,13 @@ dispenser_run(){
 
 
 dispenser_set_navigation(){
-      while ! nc -z $dispenser_ip 9000 ; do
-         sleep 1;
-      done;
-      if nc -z $dispenser_ip 9000; then
+      #if nc -z $dispenser_ip 9000; then
          echo "set Navigation";
          docker cp ${confPathDispenser}/navigations/. dispenser:/opt/docker/conf/navigation/jsons/;
          curl -X GET http://${dispenser_ip}:9000/dispenser/navigation/init;
-      else
-         dispenser_set_navigation
-  fi;
+      #else
+      #   dispenser_set_navigation
+  #fi;
 }
 
 

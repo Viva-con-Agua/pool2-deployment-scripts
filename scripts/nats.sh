@@ -6,8 +6,6 @@
 #path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 confPathNats=$"${path}/conf/nats"
 
-source ${path}/pool2.conf
-source ${certPath}/password.conf
 source ${path}/conf/setup.conf
 
 

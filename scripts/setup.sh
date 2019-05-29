@@ -22,6 +22,13 @@ setup_folder(){
   fi
 }
 
+insertOautClients(){
+echo 'INSERT INTO OauthClient (id, secret, redirectUri, grantTypes) VALUES ("webapps", "dispenser",  "http://localhost/webapps/authenticate/drops","authorization_code")'| mysql -u drops -pdrops -h 172.2.200.2 drops
+
+echo 'INSERT INTO OauthClient (id, secret, redirectUri, grantTypes) VALUES ("dispenser", "dispenser", "http://localhost/dispenser/authenticate/drops", "authorization_code")' | mysql -u drops -pdrops -h 172.2.200.2 drops
+
+echo 'INSERT INTO OauthClient (id, secret, redirectUri, grantTypes) VALUES ("stream", "stream", "http://localhost/stream/authenticate/drops", "authorization_code")' | mysql -u drops -pdrops -h 172.2.200.2 drops
+}
 
 
 setup_database(){
@@ -45,13 +52,13 @@ setup_pool_dev(){
       pool_create_subnet;
       setup_database;
       setup_dev_ms;
+      insertOautClients;
 }
 
 setup_control_ms(){
       setup_folder;
-      dispenser_run_docker;
+      dispenser_run;
       sleep 15;
-      dispenser_set_navigation;
       setup_nats_docker;
       drops_setup_docker;
 }
@@ -67,16 +74,19 @@ delete_pool_docker(){
    docker rm pool-nats;
    docker stop nginx-docker;
    docker rm nginx-docker;
+   docker rm -f webapps-docker;
 
 }
 
 delete_pool_docker_full(){
+
    drops_clean_up;
-   dispenser_clean_up;
+   dispenser_clean;
+   docker rm -f arise-docker;
    docker stop pool-nats;
    docker rm pool-nats;
    docker stop nginx-docker;
    docker rm nginx-docker;
-   pool_network_remove;
+   pool_remove_subnet;
 
 }

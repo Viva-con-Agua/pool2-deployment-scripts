@@ -2,8 +2,6 @@
 #path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
 source ${path}/conf/setup.conf
-source ${path}/pool2.conf
-source ${certPath}/password.conf
 
 bloob_db_setup(){
    echo "setup bloob database";

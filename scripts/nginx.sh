@@ -2,7 +2,6 @@
 #path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 confPathNginx=$"${path}/conf/nginx"
 certPathNginx=$"/home/pool/Pool/cert"
-source ${path}/pool2.conf
 source ${path}/conf/setup.conf
 
 

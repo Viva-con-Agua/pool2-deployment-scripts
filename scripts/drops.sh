@@ -1,8 +1,6 @@
 #!/bin/bash
 confPathDrops=$"${path}/conf/drops"
 
-source ${path}/pool2.conf
-source ${certPath}/password.conf
 source ${path}/conf/setup.conf
 
 # setup the drops docker with
