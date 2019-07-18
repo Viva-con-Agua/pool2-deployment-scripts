@@ -34,6 +34,8 @@ source ${path}/controller/update_controller.sh
 source ${path}/controller/waves_frontend_controller.sh
 source ${path}/controller/emoto_controller.sh
 
+source ${path}/controller/upsweep_backend_controller.sh
+
 case ${@: -1} in
   webapps) webapps_controller $@;;
   drops) drops_controller $@;;
@@ -53,6 +55,7 @@ case ${@: -1} in
   waves-frontend) waves_frontend_controller $@;;
   emoto) emoto_backend_controller $@;;
   emoto-frontend) emoto_frontend_controller $@;;
+  upsweep-backend) upsweep_backend_controller $@;;
 
   *) echo "microservice not supported"
 

@@ -15,6 +15,10 @@ upstream bloob-backend {
    server 172.2.0.12:9000;
 }
 
+upstream upsweep-backend {
+  server 127.0.0.1:3000;
+}
+
 ############
 # Frontend #
 ############
@@ -27,7 +31,7 @@ upstream emoto-frontend {
 #Stream-Frontend
 upstream stream-frontend {
    server 127.2.0.1:8082;
-   server 172.2.50.3:80;
+#   server 172.2.50.3:80;
 }
 
 #Waves-Frontend
@@ -38,6 +42,10 @@ upstream waves-frontend {
 #Bloob-Frontend
 upstream bloob-frontend {
         server 172.2.0.5:9000;
+}
+
+upstream upsweep-frontend {
+  server 127.0.0.1:8080;
 }
 
 ############
