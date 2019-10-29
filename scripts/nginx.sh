@@ -32,7 +32,7 @@ nginx_run_stage_docker(){
 		-v ${certPathNginx}/vca.informatik.hu-berlin.de.key:/etc/nginx/vca.informatik.hu-berlin.de.key \
 		-v ${certPathNginx}/ticket.key:/etc/nginx/ticket.key \
 		-v ${certPathNginx}/global.pass:/etc/nginx/global.pass \
-		-d nginx:1.12.1 'nginx-debug' '-g' 'daemon off;';
+		-d nginx:latest 'nginx-debug' '-g' 'daemon off;';
 		#-v ${confPath}/nginx.conf:/etc/nginx/nginx.conf \
 	#	-d nginx:1.13.7 
 
@@ -44,7 +44,7 @@ nginx_run_dev_docker(){
                -v ${confPathNginx}/default_dev.conf:/etc/nginx/conf.d/default.conf \
                -v ${confPathNginx}/pool2_dev.location:/etc/nginx/conf.d/pool2.location \
                -v ${confPathNginx}/pool2.upstream:/etc/nginx/conf.d/pool2.upstream \
-               -d nginx:1.12.1 'nginx-debug' '-g' 'daemon off;';
+               -d nginx:latest 'nginx-debug' '-g' 'daemon off;';
 }
 
 	

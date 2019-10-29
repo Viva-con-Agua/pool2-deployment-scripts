@@ -19,9 +19,19 @@ upstream upsweep-backend {
   server 127.0.0.1:3000;
 }
 
+upstream canal-backend {
+  server 127.0.0.1:8000;
+  #server 172.2.0.33:8000;
+}
+
 ############
 # Frontend #
 ############
+
+upstream canal-frontend {
+  #server 172.2.0.40:80;
+  server 127.0.0.1:8080;
+}
 
 #Emoto-Frontend
 upstream emoto-frontend {
@@ -87,6 +97,7 @@ upstream pool {
 #arise
 upstream arise {
          server 172.2.50.1:80;
+ #        server 127.0.0.1:8080;
 }
 
 

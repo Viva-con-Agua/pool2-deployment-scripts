@@ -19,7 +19,15 @@
     ],
 
     "entrys": [
+      {
+        "lable": "wiki",
 
+        "render": true,
+        
+        "url": "/wiki",
+        
+        "style": "background-color: orange"
+      },
       {
 
         "lable":"profile",
